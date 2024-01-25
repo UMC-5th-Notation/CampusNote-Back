@@ -1,7 +1,6 @@
-package UMC.campusNote.lesson;
+package UMC.campusNote.lesson.entity;
 
 import UMC.campusNote.common.BaseEntity;
-import UMC.campusNote.lessonDetail.LessonDetail;
 import UMC.campusNote.mapping.UserLesson;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -32,12 +31,17 @@ public class Lesson extends BaseEntity {
     @Column(length = 15)
     private String semester; // 학기
 
+    private String professorName; // 교수명
+    private String location; // 강의실
+    private double startTime;
+    private double runningTime;
+    private String dayOfWeek; // 요일
 
     @OneToMany(mappedBy = "lesson")
     @Builder.Default // builder 패턴 사용시 null pointer exception 발생 방지
     List<UserLesson> userLessonList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "lesson")
-    @Builder.Default
-    List<LessonDetail> lessonDetailList = new ArrayList<>();
+//    @OneToMany(mappedBy = "lesson")
+//    @Builder.Default
+//    List<LessonDetail> lessonDetailList = new ArrayList<>();
 }
