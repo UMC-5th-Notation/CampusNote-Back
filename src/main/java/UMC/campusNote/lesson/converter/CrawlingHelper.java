@@ -62,7 +62,7 @@ public class CrawlingHelper {
         return results;
     }
 
-    public static double heightToRunningTime(String stringValue) {
+    public static String heightToRunningTime(String stringValue) {
         // 문자열 길이 구하기
         int length = stringValue.length();
 
@@ -76,10 +76,10 @@ public class CrawlingHelper {
 
         double result = (double) intValue / 50;
 
-        return result; // 시간단위
+        return String.valueOf(result); // 시간단위
     }
 
-    public static double topToStartClock(String stringValue) {
+    public static String topToStartClock(String stringValue) {
         // 문자열 길이 구하기
         int length = stringValue.length();
 
@@ -90,6 +90,6 @@ public class CrawlingHelper {
 
         double result = (double) intValue / 50; // 1시간 50px
 
-        return result; // 시간단위
+        return String.valueOf(result); // 시간단위
     }
 }

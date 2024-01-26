@@ -9,6 +9,6 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
     // 쿼리 튜닝 필요
     Optional<Lesson> findByUniversityAndSemesterAndLessonNameAndProfessorNameAndLocationAndStartTimeAndRunningTimeAndDayOfWeek(
             String university, String semester, String lessonName, String professorName, String location,
-            double startTime, double runningTime, String dayOfWeek
+            String startTime, String runningTime, String dayOfWeek
     );
 }

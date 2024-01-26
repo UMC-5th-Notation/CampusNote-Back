@@ -105,8 +105,8 @@ public class CrawlingService {
 
             for (Element e : elements) {
 
-                double startTime = topToStartClock(getTop(e));
-                double runningTime = heightToRunningTime(getHeight(e));
+                String startTime = topToStartClock(getTop(e));
+                String runningTime = heightToRunningTime(getHeight(e));
                 List<String> contents = getContents(e);
 
                 String lessonName = contents.get(0);

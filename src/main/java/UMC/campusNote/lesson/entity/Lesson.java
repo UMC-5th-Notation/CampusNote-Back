@@ -33,8 +33,8 @@ public class Lesson extends BaseEntity {
 
     private String professorName; // 교수명
     private String location; // 강의실
-    private double startTime;
-    private double runningTime;
+    private String startTime;
+    private String runningTime;
     private String dayOfWeek; // 요일
 
     @OneToMany(mappedBy = "lesson")
