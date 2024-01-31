@@ -4,6 +4,7 @@ import static UMC.campusNote.classSideNote.status.ClassSideNoteErrorStatus.CLASS
 import static UMC.campusNote.classSideNote.status.ClassSideNoteErrorStatus.CLASS_SIDE_NOTE_BAD_DEADLINE;
 import static UMC.campusNote.classSideNote.status.ClassSideNoteErrorStatus.CLASS_SIDE_NOTE_BAD_REQUEST;
 import static UMC.campusNote.classSideNote.status.ClassSideNoteErrorStatus.CLASS_SIDE_NOTE_NOT_FOUND;
+import static UMC.campusNote.classSideNote.status.ClassSideNoteErrorStatus.USER_LESSON_NOT_FOUND;
 
 import UMC.campusNote.classSideNote.dto.ClassSideNoteRequest;
 import UMC.campusNote.classSideNote.entity.ClassSideNote;
@@ -15,7 +16,6 @@ import UMC.campusNote.mapping.UserLesson.UserLesson;
 
 import java.util.Comparator;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.data.domain.PageRequest;
@@ -34,8 +34,10 @@ public class ClassSideNoteService {
     ClassSideNoteRepository classSideNoteRepository;
     UserLessonRepository userLessonRepository;
 
+
     public ClassSideNote createClassSideNote(Long userLessonId, ClassSideNoteRequest request) {
         validateUserLesson(userLessonId);
+
         UserLesson userLesson = userLessonRepository.findById(userLessonId).orElseThrow();
         // 임시로 elseThrow
         validateRequest(request);
@@ -63,7 +65,7 @@ public class ClassSideNoteService {
         return classSideNote;
     }
 
-    public ClassSideNote getClassSideNoteById(Long id){
+    public ClassSideNote getClassSideNoteById(Long id) {
         validateClassSideNoteId(id);
 
         ClassSideNote classSideNote = classSideNoteRepository.findById(id).orElseThrow();
@@ -77,7 +79,6 @@ public class ClassSideNoteService {
         validateUserLesson(userLessonId);
         UserLesson userLesson = userLessonRepository.findById(userLessonId).orElseThrow();
         // 임시로 elseThrow
-
         List<ClassSideNote> classSideNoteList = classSideNoteRepository.findByUserLesson(userLesson);
 
         //sort(classSideNoteList); // 생성/수정 기준 최근순
@@ -90,7 +91,6 @@ public class ClassSideNoteService {
 
         return classSideNoteList;
     }
-
 
 
     public Slice<ClassSideNote> getClassSideNotesByUserLessonId(Long userLessonId, int page, int size) {
@@ -106,13 +106,11 @@ public class ClassSideNoteService {
     }
 
 
-    public void deleteById(Long id){
+    public void deleteById(Long id) {
         validateClassSideNoteId(id);
 
         classSideNoteRepository.deleteById(id);
     }
-
-
 
     private void validateClassSideNoteId(Long id) {
         if (!classSideNoteRepository.existsById(id)) {
@@ -122,7 +120,7 @@ public class ClassSideNoteService {
 
     private void validateUserLesson(Long userLessonId) {
         if (!userLessonRepository.existsById(userLessonId)) {
-            throw new ClassSideNoteException(CLASS_SIDE_NOTE_BAD_REQUEST);
+            throw new ClassSideNoteException(USER_LESSON_NOT_FOUND);
         }
     }
 
