@@ -1,8 +1,7 @@
-package UMC.campusNote.user.dto;
+package UMC.campusNote.auth.dto;
 
 import UMC.campusNote.user.entity.User;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,7 +35,7 @@ public class JoinReqDto {
                 .clientId(clientId)
                 .img(img)
                 .name(name)
-                .role(USER.getRole())
+                .role(USER)
                 .university(university)
                 .currentSemester(semester)
                 .build();

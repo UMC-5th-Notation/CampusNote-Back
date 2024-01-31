@@ -12,7 +12,14 @@ public enum SuccessStatus implements BaseCode {
 
     // 일반적인 응답
     OK(HttpStatus.OK, "COMMON200", "성공입니다."),
-    TEST(HttpStatus.ACCEPTED,"1231","test");
+    TEST(HttpStatus.ACCEPTED,"1231","test"),
+
+    // 회원가입
+    USER_JOIN(HttpStatus.CREATED, "USER200", "회원가입 성공"),
+    USER_LOGIN(HttpStatus.OK, "USER201", "로그인 성공"),
+    USER_LOGOUT(HttpStatus.OK, "USER202", "로그아웃 성공"),
+
+    ACCESS_TOKEN(HttpStatus.CREATED, "USER203", "토큰 재발급 성공");
 
     private final HttpStatus httpStatus;
     private final String code;

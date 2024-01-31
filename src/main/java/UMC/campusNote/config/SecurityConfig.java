@@ -1,143 +1,85 @@
 package UMC.campusNote.config;
 
-import UMC.campusNote.user.service.OAuth2UserService;
-import UMC.campusNote.user.service.UserService;
-import UMC.campusNote.user.utils.JwtUtil;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
+import UMC.campusNote.auth.jwt.JwtAuthenticationFilter;
+import UMC.campusNote.common.exception.handler.CustomAccessDeniedHandler;
+import UMC.campusNote.common.exception.handler.CustomAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import org.springframework.http.MediaType;
-
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
-import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
-import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 
-import java.io.IOException;
+import static UMC.campusNote.user.entity.Permission.*;
+import static UMC.campusNote.user.entity.Role.MANAGER;
+import static io.lettuce.core.AclCategory.ADMIN;
+import static org.springframework.http.HttpMethod.*;
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
-
-@Slf4j
 @Configuration
-@EnableMethodSecurity
+@EnableWebSecurity
 @RequiredArgsConstructor
+@EnableMethodSecurity
 public class SecurityConfig {
-    private final OAuth2UserService oAuth2UserService;
-    private final UserService userService;
-    private final JwtUtil jwtUtil;
+    private static final String URL = "/api/v1/management/**";
+    private static final String[] WHITE_LIST_URL = {
+            "/",
+            "/api/v1/auth/**",
+            "/v2/api-docs",
+            "/v3/api-docs",
+            "/v3/api-docs/**",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui/**",
+            "/webjars/**",
+            "/swagger-ui.html",
+            "/h2-console/**"
+            ,"/error/**"
+    };
+    private final JwtAuthenticationFilter jwtAuthFilter;
+    private final AuthenticationProvider authenticationProvider;
+    private final LogoutHandler logoutHandler;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+
 
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        http.httpBasic(HttpBasicConfigurer::disable)
-                .csrf(CsrfConfigurer::disable)
-                .cors(cors->cors.configurationSource(corsConfigurationSource()))
-                .sessionManagement(config -> config
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //jwt 사용하는 경우 씀
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(req ->
+                        req.requestMatchers(WHITE_LIST_URL)
+                                .permitAll()
+                                .requestMatchers(URL).hasAnyRole(ADMIN.name(), MANAGER.name())
+                                .requestMatchers(GET, URL).hasAnyAuthority(ADMIN_READ.name(), MANAGER_READ.name())
+                                .requestMatchers(POST, URL).hasAnyAuthority(ADMIN_CREATE.name(), MANAGER_CREATE.name())
+                                .requestMatchers(PUT, URL).hasAnyAuthority(ADMIN_UPDATE.name(), MANAGER_UPDATE.name())
+                                .requestMatchers(DELETE, URL).hasAnyAuthority(ADMIN_DELETE.name(), MANAGER_DELETE.name())
+                                .anyRequest()
+                                .authenticated()
+                )
+                .headers().frameOptions().disable() //h2 콘솔 접근하기 위해 추가 나중에 지우면 됨
+                .and()
+                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .authenticationProvider(authenticationProvider)
+                .logout(logout ->
+                        logout.logoutUrl("/api/v1/auth/logout")
+                                .addLogoutHandler(logoutHandler)
+                                .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
                 );
-
-        //권한에 따라 다르게
-        http.authorizeRequests()
-                .requestMatchers("/api/v1/users/join", "/api/v1/users/login","/login", "/oauth2/**", "/api/vi/auth/**").permitAll()
-                .requestMatchers("/api/v1/user/**").hasRole("USER")
-                .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
-                .requestMatchers("/api/v1/**").authenticated()
-                .anyRequest().permitAll();
-
-        //authorizeRequests에서 발생한 Exception 처리
-        http.exceptionHandling(exceptionHandling-> exceptionHandling
-                .authenticationEntryPoint(new FailedAuthenticationEntryPoint())
-        );
-
-        //filter 적용
-        http.addFilterBefore(new JwtFilter(userService, jwtUtil), UsernamePasswordAuthenticationFilter.class);
-
-
-        //로그아웃 기능 추가 필요
-        http.oauth2Login(oauth2Configurer->oauth2Configurer
-                .authorizationEndpoint(authorizationEndpointConfig -> authorizationEndpointConfig.baseUri("/api/vi/auth/oauth2")) //default는 /oauth2/authorization, 접근하고 싶으면 baseUri 뒤에 registerId 넣어야 함
-                .successHandler(successHandler())
-                .failureHandler((request,response,exception)-> {
-                    response.sendRedirect("/api/oauth2/failure");
-                })
-                .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig.userService(oAuth2UserService)))
-                .logout(logoutConfigurer -> logoutConfigurer
-                        .logoutUrl("/logout")
-                        .logoutSuccessHandler((request, response, authentication) -> {
-                                    response.sendRedirect("/api/oauth2/logout-success");
-                                })
-                        .deleteCookies("JSESSIONID")
-                );
-
+        http.exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint);
+        http.exceptionHandling().accessDeniedHandler(customAccessDeniedHandler);
         return http.build();
+
     }
 
-    @Bean
-    protected CorsConfigurationSource corsConfigurationSource(){
-        CorsConfiguration corsConfiguration=new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("*"); //모든 출처에 대해 전부 허용
-        corsConfiguration.addAllowedMethod("*"); //모든 메소드에 대해 전부 허용
-        corsConfiguration.addAllowedHeader("*"); //모든 헤더에 대해 전부 허용
-
-        UrlBasedCorsConfigurationSource source=new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
-
-        return source;
-    }
-
-    @Bean
-    public AuthenticationSuccessHandler successHandler(){
-        return ((request, response, authentication) -> {
-            DefaultOAuth2User defaultOAuth2User=(DefaultOAuth2User) authentication.getPrincipal();
-
-            String clientId=defaultOAuth2User.getName();
-            String img = defaultOAuth2User.getAttributes().get("img").toString();
-
-            // 회원 정보 조회
-            boolean isPresentUser= userService.isPresentUser(clientId);
-
-            if(!isPresentUser) { //회원이 아닐 경우
-                response.sendRedirect("/auth/oauth2-response/join?id="+clientId+"&img="+img);
-            }
-            else { //기존 회원일 경우
-                String token = userService.createToken(clientId); //이거 값 바꿔야 됨
-                response.sendRedirect("/auth/oauth2-response/login/"+token);
-            }
-
-//            //만약 redirect가 아니라 respone body를 사용하고 싶다면
-//            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-//            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-//            response.getWriter().write("{\"code\": \"NP\", \"message\": \"No Permission\"}");
-
-        });
-    }
-
-}
-
-
-class FailedAuthenticationEntryPoint implements AuthenticationEntryPoint{
-
-    @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        response.getWriter().write("{\"code\": \"NP\", \"message\": \"No Permission\"}");
-    }
 }
