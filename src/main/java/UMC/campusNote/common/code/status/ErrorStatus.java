@@ -25,6 +25,7 @@ public enum ErrorStatus implements BaseErrorCode {
     // 토큰 관련 에러
     TOKEN_NOT_FOUND(HttpStatus.BAD_REQUEST, "TOKEN4001", "토큰이 존재하지 않습니다."),
     TOKEN_EXPIRED(HttpStatus.BAD_REQUEST, "TOKEN4002", "토큰이 만료되었습니다."),
+    TOKEN_MALFORM(HttpStatus.BAD_REQUEST, "TOKEN4003", "토큰이 변조되었습니다."),
     ;
     private final HttpStatus httpStatus;
     private final String code;

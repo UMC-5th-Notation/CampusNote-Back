@@ -1,4 +1,4 @@
-package UMC.campusNote.user;
+package UMC.campusNote.user.entity;
 
 import UMC.campusNote.common.BaseEntity;
 import UMC.campusNote.friend.Friend;
@@ -24,6 +24,9 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_ID")
     private Long id;
+
+    @Column(length = 100)
+    private String clientId;
 
     @Column(length = 20)
     private String name;
@@ -53,4 +56,6 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @Builder.Default
     List<UserLesson> userLessonList = new ArrayList<>();
+
+
 }
