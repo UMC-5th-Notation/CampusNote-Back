@@ -26,23 +26,4 @@ public class ClassSideNoteResponse {
 
     private String deadline;
 
-    private Integer errorFlag;
-
-
-    public ClassSideNoteResponse(@NonNull Long id, @NonNull String content, @NonNull Boolean isTodo,
-                                 @NonNull Integer colorCode, String deadline) {
-        this.id = id;
-        this.content = content;
-        this.isTodo = isTodo;
-        this.colorCode = colorCode;
-        this.deadline = deadline;
-    }
-
-    public ClassSideNoteResponse(Integer errorFlag) {
-        this.errorFlag = errorFlag;
-    }
-
-//    private LocalDateTime createdAt;
-//
-//    private LocalDateTime updatedAt;
 }
