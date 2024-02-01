@@ -1,8 +1,8 @@
 package UMC.campusNote.lesson.converter;
 
 
-import UMC.campusNote.lesson.dto.CrawlingResponse;
-import UMC.campusNote.lesson.dto.CrawlingResponseDetails;
+import UMC.campusNote.lesson.dto.LessonDto;
+import UMC.campusNote.lesson.dto.LessonDetailsDto;
 import UMC.campusNote.lesson.entity.Lesson;
 import UMC.campusNote.mapping.UserLesson;
 
@@ -10,26 +10,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LessonConverter {
-    public static List<CrawlingResponse> toCrawlingResponseList(List<UserLesson> action) {
+    public static List<LessonDto> userLessonsToLessonDtos(List<UserLesson> action) {
 
-        List<CrawlingResponse> responses = new ArrayList<>();
+        List<LessonDto> responses = new ArrayList<>();
 
         for (UserLesson memberLesson : action) {
 //            Member member = memberLesson.getMember();
             Lesson lesson = memberLesson.getLesson();
 
             boolean dup = false;
-            CrawlingResponse dupResponse = null;
+            LessonDto dupResponse = null;
             if (!responses.isEmpty()) {
-                for (CrawlingResponse crawlingResponse : responses) {
-                    if (crawlingResponse.getLessonName().equals(lesson.getLessonName())) {
+                for (LessonDto lessonDto : responses) {
+                    if (lessonDto.getLessonName().equals(lesson.getLessonName())) {
                         dup = true;
-                        dupResponse = crawlingResponse;
+                        dupResponse = lessonDto;
                     }
                 }
             }
 
-            CrawlingResponseDetails crawlingResponseDetails = CrawlingResponseDetails.builder()
+            LessonDetailsDto lessonDetailsDto = LessonDetailsDto.builder()
                     .professorName(lesson.getProfessorName())
                     .location(lesson.getLocation())
                     .startTime(lesson.getStartTime())
@@ -38,20 +38,40 @@ public class LessonConverter {
                     .build();
 
             if (dup) {
-                dupResponse.getCrawlingResponseDetailsList().add(crawlingResponseDetails);
+                dupResponse.getLessonDetailsDtoList().add(lessonDetailsDto);
             } else {
-                CrawlingResponse crawlingResponse = CrawlingResponse.builder()
+                LessonDto lessonDto = LessonDto.builder()
                         .id(lesson.getId())
                         .university(lesson.getUniversity())
                         .semester(lesson.getSemester())
                         .lessonName(lesson.getLessonName())
                         .build();
-                crawlingResponse.getCrawlingResponseDetailsList().add(crawlingResponseDetails);
+                lessonDto.getLessonDetailsDtoList().add(lessonDetailsDto);
 
-                responses.add(crawlingResponse);
+                responses.add(lessonDto);
             }
         }
         return responses;
+    }
+
+    public static LessonDto oneLessonToLessonDto(Lesson lesson) {
+
+        LessonDetailsDto build = LessonDetailsDto.builder()
+                .professorName(lesson.getProfessorName())
+                .location(lesson.getLocation())
+                .startTime(lesson.getStartTime())
+                .runningTime(lesson.getRunningTime())
+                .dayOfWeek(lesson.getDayOfWeek())
+                .build();
+        List<LessonDetailsDto> list = new ArrayList<>();
+        list.add(build);
+        return LessonDto.builder()
+                .id(lesson.getId())
+                .university(lesson.getUniversity())
+                .semester(lesson.getSemester())
+                .lessonName(lesson.getLessonName())
+                .lessonDetailsDtoList(list)
+                .build();
     }
 
 }

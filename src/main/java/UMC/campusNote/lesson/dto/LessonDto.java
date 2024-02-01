@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @Builder
-public class CrawlingResponse {
+public class LessonDto {
     private Long id; // lesson id
 
     private String university; // 학교
@@ -19,5 +19,5 @@ public class CrawlingResponse {
     private String lessonName; // 과목명
 
     @Builder.Default
-    private List<CrawlingResponseDetails> crawlingResponseDetailsList = new ArrayList<>();
+    private List<LessonDetailsDto> lessonDetailsDtoList = new ArrayList<>();
 }

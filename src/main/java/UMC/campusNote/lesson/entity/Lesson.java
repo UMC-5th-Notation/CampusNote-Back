@@ -44,4 +44,34 @@ public class Lesson extends BaseEntity {
 //    @OneToMany(mappedBy = "lesson")
 //    @Builder.Default
 //    List<LessonDetail> lessonDetailList = new ArrayList<>();
+
+    public static Lesson createLesson(String university, String semester, String lessonName, String professorName,
+                                      String location, String startTime, String runningTime, String dayOfWeek) {
+        return Lesson.builder()
+                .university(university)
+                .semester(semester)
+                .lessonName(lessonName)
+                .professorName(professorName)
+                .location(location)
+                .startTime(startTime)
+                .runningTime(runningTime)
+                .dayOfWeek(dayOfWeek)
+                .build();
+    }
+
+    @Override
+    public String toString() {
+        return "Lesson{" +
+                "id=" + id +
+                ", university='" + university + '\'' +
+                ", lessonName='" + lessonName + '\'' +
+                ", semester='" + semester + '\'' +
+                ", professorName='" + professorName + '\'' +
+                ", location='" + location + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", runningTime='" + runningTime + '\'' +
+                ", dayOfWeek='" + dayOfWeek + '\'' +
+                ", userLessonList=" + userLessonList +
+                '}';
+    }
 }

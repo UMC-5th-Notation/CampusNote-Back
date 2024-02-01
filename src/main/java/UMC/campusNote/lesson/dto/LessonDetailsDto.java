@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Builder
-public class CrawlingResponseDetails {
+public class LessonDetailsDto {
     private String professorName; // 교수명
     private String location; // 강의실
 
