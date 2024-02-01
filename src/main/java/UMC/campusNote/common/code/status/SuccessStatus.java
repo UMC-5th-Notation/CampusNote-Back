@@ -14,6 +14,12 @@ public enum SuccessStatus implements BaseCode {
     OK(HttpStatus.OK, "COMMON200", "성공입니다."),
     TEST(HttpStatus.ACCEPTED,"1231","test"),
 
+    // 크롤링
+    CRAWLING_OK(HttpStatus.CREATED, "CRAWL201", "크롤링 성공"),
+
+    // 수업
+    LESSON_CREATE(HttpStatus.CREATED, "LESSON201", "수업 생성 성공"),
+
     // 회원가입
     USER_JOIN(HttpStatus.CREATED, "USER200", "회원가입 성공"),
     USER_LOGIN(HttpStatus.OK, "USER201", "로그인 성공"),

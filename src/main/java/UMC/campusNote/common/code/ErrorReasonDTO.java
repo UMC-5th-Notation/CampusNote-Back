@@ -1,11 +1,13 @@
 package UMC.campusNote.common.code;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @Getter
 @Builder
+@Data // for equals method overriding
 public class ErrorReasonDTO {
 
     private HttpStatus httpStatus;
