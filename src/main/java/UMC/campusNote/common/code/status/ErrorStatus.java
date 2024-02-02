@@ -18,6 +18,8 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // 레슨 관련 에러
     LESSON_NOT_FOUND(HttpStatus.BAD_REQUEST, "LESSON4001","존재하지 않는 수업."),
+    LESSONS_NOT_FOUND(HttpStatus.BAD_REQUEST, "LESSON4002","해당학기 수업 정보가 없습니다."),
+    LESSONS_ALREADY_HAVE(HttpStatus.BAD_REQUEST, "LESSON4003","중복된 수업."),
 
     // 크롤링 관련 에러
     CRAWLING_URL_INVALID(HttpStatus.BAD_REQUEST, "URL4001", "적절하지 않은 url."),
