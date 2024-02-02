@@ -18,10 +18,6 @@ import java.util.Comparator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -77,11 +73,9 @@ public class ClassSideNoteService {
 
     public List<ClassSideNote> getClassSideNoteListByUserLessonId(Long userLessonId) {
         validateUserLesson(userLessonId);
-        UserLesson userLesson = userLessonRepository.findById(userLessonId).orElseThrow();
         // 임시로 elseThrow
-        List<ClassSideNote> classSideNoteList = classSideNoteRepository.findByUserLesson(userLesson);
+        List<ClassSideNote> classSideNoteList = classSideNoteRepository.findByUserLessonId(userLessonId);
 
-        //sort(classSideNoteList); // 생성/수정 기준 최근순
         classSideNoteList.sort(Comparator.comparing(ClassSideNote::getCreatedAt).reversed());
         // 생성 기준 최근순
 
@@ -93,17 +87,17 @@ public class ClassSideNoteService {
     }
 
 
-    public Slice<ClassSideNote> getClassSideNotesByUserLessonId(Long userLessonId, int page, int size) {
-        validateUserLesson(userLessonId);
-        UserLesson userLesson = userLessonRepository.findById(userLessonId).orElseThrow();
-
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
-        Slice<ClassSideNote> classSideNoteSlice = classSideNoteRepository.findSliceBy(userLesson, pageable);
-
-        classSideNoteSlice.forEach(classSideNote -> validateClassSideNoteId(classSideNote.getId()));
-
-        return classSideNoteSlice;
-    }
+//    public Slice<ClassSideNote> getClassSideNotesByUserLessonId(Long userLessonId, int page, int size) {
+//        validateUserLesson(userLessonId);
+//        UserLesson userLesson = userLessonRepository.findById(userLessonId).orElseThrow();
+//
+//        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdAt").descending());
+//        Slice<ClassSideNote> classSideNoteSlice = classSideNoteRepository.findSliceBy(pageRequest);
+//
+//        classSideNoteSlice.forEach(classSideNote -> validateClassSideNoteId(classSideNote.getId()));
+//
+//        return classSideNoteSlice;
+//    }
 
 
     public void deleteById(Long id) {
