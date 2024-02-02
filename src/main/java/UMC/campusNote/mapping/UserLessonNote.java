@@ -1,7 +1,6 @@
 package UMC.campusNote.mapping;
 
 import UMC.campusNote.common.BaseEntity;
-import UMC.campusNote.lesson.Lesson;
 import UMC.campusNote.note.Note;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

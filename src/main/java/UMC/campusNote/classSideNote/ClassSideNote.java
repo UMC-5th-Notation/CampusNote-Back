@@ -2,7 +2,6 @@ package UMC.campusNote.classSideNote;
 
 import UMC.campusNote.common.BaseEntity;
 import UMC.campusNote.mapping.UserLesson;
-import UMC.campusNote.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
