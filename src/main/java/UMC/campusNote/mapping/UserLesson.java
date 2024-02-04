@@ -2,8 +2,8 @@ package UMC.campusNote.mapping;
 
 import UMC.campusNote.classSideNote.ClassSideNote;
 import UMC.campusNote.common.BaseEntity;
-import UMC.campusNote.lesson.Lesson;
-import UMC.campusNote.user.User;
+import UMC.campusNote.lesson.entity.Lesson;
+import UMC.campusNote.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,12 +43,23 @@ public class UserLesson extends BaseEntity {
     @Builder.Default
     private List<UserLessonNote> userLessonNoteList = new ArrayList<>();
 
-    public void setUserAndLesson(User user, Lesson lesson){
+    public void setUserAndLesson(User user, Lesson lesson) {
         // 예외 처리 필요
         this.user = user;
         this.lesson = lesson;
 
         user.getUserLessonList().add(this);
         lesson.getUserLessonList().add(this);
+    }
+
+    private void setAttendedSemester(String attendedSemester) {
+        this.attendedSemester = attendedSemester;
+    }
+
+    public static UserLesson createUserLesson(User user, Lesson lesson, String semester) {
+        UserLesson userLesson = new UserLesson();
+        userLesson.setUserAndLesson(user, lesson); // 연관관계 편의 메소드 사용
+        userLesson.setAttendedSemester(semester);
+        return userLesson;
     }
 }
