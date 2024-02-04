@@ -1,7 +1,6 @@
 package UMC.campusNote.note;
 
 import UMC.campusNote.audio.Audio;
-import UMC.campusNote.classSideNote.ClassSideNote;
 import UMC.campusNote.common.BaseEntity;
 import UMC.campusNote.image.Image;
 import UMC.campusNote.lessonNote.LessonNote;
