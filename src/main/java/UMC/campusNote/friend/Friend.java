@@ -1,6 +1,7 @@
 package UMC.campusNote.friend;
 
 import UMC.campusNote.common.BaseEntity;
+
 import UMC.campusNote.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
