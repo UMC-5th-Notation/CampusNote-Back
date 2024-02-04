@@ -36,4 +36,5 @@
 //
 //    @Column(length = 20)
 //    private String professorName; // 교수명
+
 //}

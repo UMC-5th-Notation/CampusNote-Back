@@ -15,5 +15,4 @@ public class ErrorReasonDTO {
     private final boolean isSuccess;
     private final String code;
     private final String message;
-
 }

@@ -62,4 +62,5 @@ public class UserLesson extends BaseEntity {
         userLesson.setAttendedSemester(semester);
         return userLesson;
     }
+
 }
