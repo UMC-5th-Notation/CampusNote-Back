@@ -1,6 +1,6 @@
 package UMC.campusNote.mapping;
 
-import UMC.campusNote.classSideNote.entity.ClassSideNote;
+import UMC.campusNote.classSideNote.ClassSideNote;
 import UMC.campusNote.common.BaseEntity;
 import UMC.campusNote.lesson.entity.Lesson;
 import UMC.campusNote.user.entity.User;
@@ -62,5 +62,4 @@ public class UserLesson extends BaseEntity {
         userLesson.setAttendedSemester(semester);
         return userLesson;
     }
-
 }

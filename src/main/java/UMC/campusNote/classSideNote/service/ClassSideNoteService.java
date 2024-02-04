@@ -10,8 +10,13 @@ import UMC.campusNote.classSideNote.dto.ClassSideNoteRequest;
 import UMC.campusNote.classSideNote.entity.ClassSideNote;
 import UMC.campusNote.classSideNote.exception.ClassSideNoteException;
 import UMC.campusNote.classSideNote.repository.ClassSideNoteRepository;
+<<<<<<< HEAD
 import UMC.campusNote.mapping.repository.UserLessonRepository;
 import UMC.campusNote.mapping.UserLesson;
+=======
+import UMC.campusNote.mapping.UserLesson.UserLessonRepository;
+import UMC.campusNote.mapping.UserLesson.UserLesson;
+>>>>>>> origin/develop
 
 
 import java.util.Comparator;
