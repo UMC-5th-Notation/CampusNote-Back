@@ -2,7 +2,7 @@ package UMC.campusNote.classSideNote.entity;
 
 import UMC.campusNote.classSideNote.dto.ClassSideNoteRequest;
 import UMC.campusNote.common.BaseEntity;
-import UMC.campusNote.mapping.UserLesson.UserLesson;
+import UMC.campusNote.mapping.UserLesson;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
