@@ -48,7 +48,7 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
                     errors.merge(fieldName, errorMessage, (existingErrorMessage, newErrorMessage) -> existingErrorMessage + ", " + newErrorMessage);
                 });
 
-        return handleExceptionInternalArgs(ex, HttpHeaders.EMPTY,ErrorStatus.valueOf("_BAD_REQUEST"),request,errors);
+        return handleExceptionInternalArgs(ex, HttpHeaders.EMPTY,ErrorStatus.valueOf("BAD_REQUEST"),request,errors);
 
     }
 
@@ -65,7 +65,11 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(generalException,errorReasonHttpStatus,null,request);
     }
 
-
+//    @ExceptionHandler(value = IllegalArgumentException.class)
+//    public ResponseEntity onThrowException(IllegalArgumentException exception, HttpServletRequest request) {
+//        ErrorReasonDTO errorReasonHttpStatus = ErrorStatus.BAD_REQUEST.getReasonHttpStatus();
+//        return handleExceptionInternal(exception,errorReasonHttpStatus,null,request);
+//    }
 
 
     private ResponseEntity<Object> handleExceptionInternal(Exception e, ErrorReasonDTO reason,
