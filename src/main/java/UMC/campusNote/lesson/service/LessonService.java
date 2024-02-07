@@ -83,7 +83,7 @@ public class LessonService {
             return findLesson.getId();
         }
     }
-
+                                            
     public Long deleteUserLesson(Long userId, Long lessonId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.USER_NOT_FOUND));

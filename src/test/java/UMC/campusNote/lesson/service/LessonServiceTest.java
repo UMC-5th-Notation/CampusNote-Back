@@ -39,7 +39,6 @@ class LessonServiceTest {
     @Mock
     LessonRepository lessonRepository;
 
-
     @Test
     @DisplayName("[특정학기 수업 조회 실패] invalid memberId")
     void findLessons_fail_invalid_memberId() {
@@ -70,7 +69,6 @@ class LessonServiceTest {
                 .thenReturn(Optional.of(user));
         when(userLessonRepository.findByUserAndAndAttendedSemester(user, "semester"))
                 .thenReturn(Optional.empty());
-
         LessonException exception = assertThrows(
                 LessonException.class, () -> {
                     lessonService.findLessons(user.getId(), "semester");
@@ -212,7 +210,6 @@ class LessonServiceTest {
         when(lessonRepository.findUniqueLesson(any(Lesson.class))).thenReturn(Optional.of(existingLesson));
         when(userLessonRepository.findByUserAndAndAttendedSemesterAndAndLesson(user, existingLesson.getSemester(), existingLesson))
                 .thenReturn(Optional.of(userLesson));
-
 
         LessonException exception = assertThrows(
                 LessonException.class, () -> {
