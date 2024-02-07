@@ -10,7 +10,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CustomLessonRequest {
-    private String university; // 학교
     private String lessonName; // 수업명
     private String semester; // 학기
     private String professorName; // 교수명
