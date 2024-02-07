@@ -19,7 +19,6 @@ import java.util.List;
 public class LessonController {
     private final LessonService lessonService;
 
-    // 특정 학기 수업 가져오기
     @GetMapping(value = "/api/v1/lessons")
     public ApiResponse<List<LessonDto>> findLessons(@AuthenticationPrincipal User user,
                                                     @RequestParam(name = "semester") String semester) {
@@ -47,5 +46,15 @@ public class LessonController {
         Long lessonId = lessonService.createCustomLesson(user.getId(), customLessonRequest);
 
         return ApiResponse.of(SuccessStatus.LESSON_CREATE, lessonId);
+    }
+
+    @DeleteMapping(value = "/api/v1/lessons/{lessonId}")
+    public ApiResponse<Long> deleteUserLesson(@AuthenticationPrincipal User user,
+                                                         @PathVariable(name = "lessonId") Long lessonId) {
+        log.info("enter LessonController : [delete] /api/v1/lessons/{}", lessonId);
+
+        Long id = lessonService.deleteUserLesson(user.getId(), lessonId);
+
+        return ApiResponse.of(SuccessStatus.OK, id);
     }
 }
