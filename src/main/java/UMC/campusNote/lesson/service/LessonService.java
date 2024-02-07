@@ -6,6 +6,7 @@ import UMC.campusNote.lesson.converter.LessonConverter;
 import UMC.campusNote.lesson.dto.CustomLessonRequest;
 import UMC.campusNote.lesson.dto.LessonDto;
 import UMC.campusNote.lesson.entity.Lesson;
+import UMC.campusNote.lesson.exception.LessonException;
 import UMC.campusNote.lesson.repository.LessonRepository;
 import UMC.campusNote.mapping.UserLesson;
 import UMC.campusNote.mapping.repository.UserLessonRepository;
@@ -30,9 +31,9 @@ public class LessonService {
                 .orElseThrow(() -> new GeneralException(ErrorStatus.USER_NOT_FOUND));
 
         List<UserLesson> userLessonList = userLessonRepository.findByUserAndAndAttendedSemester(user, semester)
-                .orElseThrow(() -> new GeneralException(ErrorStatus.LESSONS_NOT_FOUND));
+                .orElseThrow(() -> new LessonException(ErrorStatus.LESSONS_NOT_FOUND));
         if (userLessonList.isEmpty()) {
-            throw new GeneralException(ErrorStatus.LESSONS_NOT_FOUND);
+            throw new LessonException(ErrorStatus.LESSONS_NOT_FOUND);
         }
 
         return LessonConverter.userLessonsToLessonDtos(userLessonList);
@@ -40,7 +41,7 @@ public class LessonService {
 
     public LessonDto findLessonDetails(Long lessonId) {
         Lesson lesson = lessonRepository.findById(lessonId)
-                .orElseThrow(() -> new GeneralException(ErrorStatus.LESSON_NOT_FOUND));
+                .orElseThrow(() -> new LessonException(ErrorStatus.LESSON_NOT_FOUND));
 
         return LessonConverter.oneLessonToLessonDto(lesson);
     }
@@ -50,7 +51,7 @@ public class LessonService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.USER_NOT_FOUND));
 
-        Lesson lesson = Lesson.createLesson(customLessonRequest.getUniversity(), customLessonRequest.getSemester(), customLessonRequest.getLessonName(),
+        Lesson lesson = Lesson.createLesson(user.getUniversity(), customLessonRequest.getSemester(), customLessonRequest.getLessonName(),
                 customLessonRequest.getProfessorName(), customLessonRequest.getLocation(), customLessonRequest.getStartTime(),
                 customLessonRequest.getRunningTime(), customLessonRequest.getDayOfWeek());
 
@@ -76,10 +77,27 @@ public class LessonService {
                 userLessonRepository.save(userLesson);
             } else {
                 // not new && already have
-                throw new GeneralException(ErrorStatus.LESSONS_ALREADY_HAVE);
+                throw new LessonException(ErrorStatus.LESSONS_ALREADY_HAVE);
             }
 
             return findLesson.getId();
         }
+    }
+
+    public Long deleteUserLesson(Long userId, Long lessonId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.USER_NOT_FOUND));
+
+        Lesson lesson = lessonRepository.findById(lessonId)
+                .orElseThrow(() -> new LessonException(ErrorStatus.LESSON_NOT_FOUND));
+
+        UserLesson foundUserLesson = userLessonRepository
+                .findByUserAndAndAttendedSemesterAndAndLesson(user, lesson.getSemester(), lesson)
+                .orElseThrow(() -> new LessonException(ErrorStatus.USERLESSON_NOT_FOUND));
+
+        user.getUserLessonList().removeIf(userLesson -> userLesson.equals(foundUserLesson));
+        userLessonRepository.deleteById(foundUserLesson.getId());
+
+        return lessonId;
     }
 }
