@@ -7,7 +7,7 @@ import UMC.campusNote.audio.repository.AudioRepository;
 import UMC.campusNote.common.exception.GeneralException;
 import UMC.campusNote.common.s3.S3Provider;
 import UMC.campusNote.common.s3.dto.S3UploadRequest;
-import UMC.campusNote.note.NoteRepository;
+import UMC.campusNote.note.repository.NoteRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Slice;

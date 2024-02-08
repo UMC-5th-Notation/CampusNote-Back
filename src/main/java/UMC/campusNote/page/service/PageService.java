@@ -2,8 +2,8 @@ package UMC.campusNote.page.service;
 
 import UMC.campusNote.common.s3.S3Provider;
 import UMC.campusNote.common.s3.dto.S3UploadRequest;
-import UMC.campusNote.note.Note;
-import UMC.campusNote.note.NoteRepository;
+import UMC.campusNote.note.entity.Note;
+import UMC.campusNote.note.repository.NoteRepository;
 import UMC.campusNote.page.converter.PageConverter;
 import UMC.campusNote.page.dto.PageResponseDTO;
 import UMC.campusNote.page.repository.PageRepository;

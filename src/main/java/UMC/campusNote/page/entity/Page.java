@@ -1,7 +1,7 @@
 package UMC.campusNote.page.entity;
 
 import UMC.campusNote.common.BaseEntity;
-import UMC.campusNote.note.Note;
+import UMC.campusNote.note.entity.Note;
 import jakarta.persistence.*;
 import lombok.*;
 

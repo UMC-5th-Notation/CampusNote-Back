@@ -1,4 +1,4 @@
-package UMC.campusNote.note;
+package UMC.campusNote.note.entity;
 
 import UMC.campusNote.audio.entity.Audio;
 import UMC.campusNote.common.BaseEntity;

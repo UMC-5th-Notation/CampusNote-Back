@@ -1,6 +1,7 @@
-package UMC.campusNote.note;
+package UMC.campusNote.note.repository;
 
 
+import UMC.campusNote.note.entity.Note;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

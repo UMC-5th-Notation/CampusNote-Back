@@ -1,7 +1,5 @@
 package UMC.campusNote.page.dto;
 
-import UMC.campusNote.note.Note;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
