@@ -22,4 +22,11 @@ public class NoteConverter {
                 .noteName(userLessonNote.getNote().getNoteName())
                 .build();
     }
+
+    public static NoteResponseDTO.NoteGetDTO toNoteGetDTO(Note note){
+        return NoteResponseDTO.NoteGetDTO.builder()
+                .noteId(note.getId())
+                .noteName(note.getNoteName())
+                .build();
+    }
 }

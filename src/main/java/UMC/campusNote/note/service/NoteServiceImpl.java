@@ -39,6 +39,12 @@ public class NoteServiceImpl implements NoteService {
     private final UserLessonNoteRepository userLessonNoteRepository;
 
     @Override
+    public NoteResponseDTO.NoteGetDTO getUserNote(User user, Long noteId) {
+        return NoteConverter.toNoteGetDTO
+                (noteRepository.findById(noteId).orElseThrow(() -> new GeneralException(NOTE_NOT_FOUND)));
+    }
+
+    @Override
     public Slice<NoteResponseDTO.NoteGetDTO> getUserNotes(User user, Long lessonId, String semester, Pageable pageable) {
         UserLesson userLesson = getUserLesson(user, lessonId, semester);
         Page<UserLessonNote> userLessonNotePage = userLessonNoteRepository.findByUserLessonId(userLesson.getId(), pageable);
