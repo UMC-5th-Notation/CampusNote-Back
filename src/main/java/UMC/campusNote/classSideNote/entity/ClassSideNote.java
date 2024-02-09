@@ -1,6 +1,6 @@
 package UMC.campusNote.classSideNote.entity;
 
-import UMC.campusNote.classSideNote.dto.ClassSideNoteRequest;
+import UMC.campusNote.classSideNote.dto.ClassSideNoteRequestDTO.UpdateSideNoteRequest;
 import UMC.campusNote.common.BaseEntity;
 import UMC.campusNote.mapping.UserLesson;
 import jakarta.persistence.*;
@@ -39,15 +39,14 @@ public class ClassSideNote extends BaseEntity {
     // 할일인 경우에는 deadline 을 받아오고
     // 그냥 사이드 노트인 경우에는 deadline이 null 일 수 있다는 생각입니다.
 
-    public ClassSideNote updateContent(String content){
+    public ClassSideNote updateContent(String content) {
         this.content = content;
         return this;
     }
-    public ClassSideNote update(ClassSideNoteRequest request) {
-        content = request.getContent();
-        isTodo = request.getIsTodo();
-        colorCode = request.getColorCode();
-        deadline = request.getDeadline();
+
+    public ClassSideNote update(UpdateSideNoteRequest request) {
+        this.content = request.getContent();
+        this.deadline = request.getDeadline();
         return this;
     }
 }
