@@ -7,6 +7,7 @@ import UMC.campusNote.note.service.NoteService;
 import UMC.campusNote.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.Fetch;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -35,5 +36,10 @@ public class NoteController {
     @PostMapping("/{lessonId}")
     public ApiResponse<NoteResponseDTO.NoteCreateDTO> createNote(@AuthenticationPrincipal User user, @PathVariable("lessonId") Long lessonId, @RequestBody NoteRequestDTO.NoteCreateDTO request) {
         return ApiResponse.of(NOTE_CREATE, noteService.createUserNote(user, lessonId, request));
+    }
+
+    @PatchMapping("/{noteId}")
+    public ApiResponse<NoteResponseDTO.NoteUpdateDTO> updateNote(@AuthenticationPrincipal User user, @PathVariable("noteId") Long noteId, @RequestBody NoteRequestDTO.NoteUpdateDTO request) {
+        return ApiResponse.of(NOTE_UPDATE, noteService.updateUserNote(user, noteId, request));
     }
 }

@@ -35,4 +35,10 @@ public class NoteConverter {
                 .noteId(note.getId())
                 .build();
     }
+
+    public static NoteResponseDTO.NoteDeleteDTO toNoteDeleteDTO(Note note) {
+        return NoteResponseDTO.NoteDeleteDTO.builder()
+                .noteId(note.getId())
+                .build();
+    }
 }

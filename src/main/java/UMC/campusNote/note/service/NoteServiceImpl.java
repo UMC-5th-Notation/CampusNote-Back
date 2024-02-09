@@ -59,10 +59,18 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
+    @Transactional
     public NoteResponseDTO.NoteUpdateDTO updateUserNote(User user, Long noteId, NoteRequestDTO.NoteUpdateDTO request) {
         Note note = noteRepository.findById(noteId).orElseThrow(() -> new GeneralException(NOTE_NOT_FOUND));
         note.setNoteName(request.getNoteName());
-        return NoteConverter.toNoteUpdateDTO(noteRepository.save(note));
+        return NoteConverter.toNoteUpdateDTO(note);
+    }
+
+    @Override
+    public NoteResponseDTO.NoteDeleteDTO deleteUserNote(User user, Long noteId) {
+        Note note = noteRepository.findById(noteId).orElseThrow(() -> new GeneralException(NOTE_NOT_FOUND));
+        noteRepository.delete(note);
+        return NoteConverter.toNoteDeleteDTO(note);
     }
 
 

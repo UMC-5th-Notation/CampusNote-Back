@@ -12,4 +12,5 @@ public interface NoteService {
     Slice<NoteResponseDTO.NoteGetDTO> getUserNotes(User user, Long lessonId, String semester, Pageable pageable);
     NoteResponseDTO.NoteCreateDTO createUserNote(User user, Long lessonId, NoteRequestDTO.NoteCreateDTO request);
     NoteResponseDTO.NoteUpdateDTO updateUserNote(User user, Long noteId, NoteRequestDTO.NoteUpdateDTO request);
+    NoteResponseDTO.NoteDeleteDTO deleteUserNote(User user, Long noteId);
 }
