@@ -28,6 +28,7 @@ public enum ErrorStatus implements BaseErrorCode {
     PASSWORD_NOT_MATCH(HttpStatus.BAD_REQUEST, "MEMBER4002", "비밀번호가 일치하지 않습니다."),
     PASSWORD_NOT_MATCH_CONFIRM(HttpStatus.BAD_REQUEST, "MEMBER4003", "새비밀번호와 재입력한 새비밀번호가 일치하지 않습니다."),
     USER_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "MEMBER4004", "이미 존재하는 사용자입니다."),
+    FRIEND_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "MEMBER4005", "이미 존재하는 친구입니다."),
 
     // 토큰 관련 에러
     TOKEN_NOT_FOUND(HttpStatus.BAD_REQUEST, "TOKEN4001", "토큰이 존재하지 않습니다."),
