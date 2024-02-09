@@ -11,7 +11,18 @@ public class NoteResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class NoteGetDTO{
+        Long noteId;
+        String noteName;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class NoteCreateDTO{
         Long noteId;
     }
+
+
 }

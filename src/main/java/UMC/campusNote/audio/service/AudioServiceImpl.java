@@ -10,6 +10,8 @@ import UMC.campusNote.common.s3.dto.S3UploadRequest;
 import UMC.campusNote.note.repository.NoteRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
@@ -37,11 +39,12 @@ public class AudioServiceImpl implements AudioService {
     }
 
     @Override
-    public Slice<AudioResDto> getAudios(Long noteId) {
-        List<AudioResDto> audioResDtos = audioRepository.findByNoteId(noteId).stream()
+    public Slice<AudioResDto> getAudios(Long noteId, Pageable pageable) {
+        Page<Audio> audioPage = audioRepository.findByNoteId(noteId, pageable);
+        List<AudioResDto> audioResDtos = audioPage.getContent().stream()
                 .map(audio -> AudioResDto.fromEntity(audio.getId(), audio.getAudioFile()))
                 .toList();
-        return new SliceImpl<>(audioResDtos);
+        return new SliceImpl<>(audioResDtos, pageable, audioPage.hasNext());
     }
 
     @Override

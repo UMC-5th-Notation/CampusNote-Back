@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -54,8 +55,8 @@ public class AudioController {
     @Parameters({
             @Parameter(name = "noteId", description = "노트의 아이디, path variable 입니다")
     })
-    public ApiResponse<Slice<AudioResDto>> getAudios(@PathVariable("noteId") Long noteId) {
-        return ApiResponse.of(AUDIO_GET_ALL, audioService.getAudios(noteId));
+    public ApiResponse<Slice<AudioResDto>> getAudios(@PathVariable("noteId") Long noteId, Pageable pageable) {
+        return ApiResponse.of(AUDIO_GET_ALL, audioService.getAudios(noteId, pageable));
     }
 
     @PostMapping("/{noteId}")

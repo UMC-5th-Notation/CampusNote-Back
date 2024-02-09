@@ -15,8 +15,14 @@ import UMC.campusNote.note.repository.NoteRepository;
 import UMC.campusNote.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static UMC.campusNote.classSideNote.status.ClassSideNoteErrorStatus.USER_LESSON_NOT_FOUND;
 import static UMC.campusNote.common.code.status.ErrorStatus.*;
@@ -31,6 +37,19 @@ public class NoteServiceImpl implements NoteService {
     private final NoteRepository noteRepository;
     private final LessonRepository lessonRepository;
     private final UserLessonNoteRepository userLessonNoteRepository;
+
+    @Override
+    public Slice<NoteResponseDTO.NoteGetDTO> getUserNotes(User user, NoteRequestDTO.NoteGetDTO request, Pageable pageable) {
+        UserLesson userLesson = getUserLesson(user, request.getLessonId(), request.getSemester());
+        Page<UserLessonNote> userLessonNotePage = userLessonNoteRepository.findByUserLessonId(userLesson.getId(), pageable);
+        List<NoteResponseDTO.NoteGetDTO> noteGetDTOS = userLessonNotePage.getContent().stream()
+                .map(userLessonNote -> NoteResponseDTO.NoteGetDTO.builder()
+                        .noteId(userLessonNote.getNote().getId())
+                        .noteName(userLessonNote.getNote().getNoteName())
+                        .build())
+                .toList();
+        return new SliceImpl<>(noteGetDTOS, pageable, userLessonNotePage.hasNext());
+    }
 
     @Override
     @Transactional
