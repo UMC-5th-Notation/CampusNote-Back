@@ -136,4 +136,21 @@ class NoteServiceImplTest {
 
     }
 
+    @Test
+    @Transactional
+    @DisplayName("[특정 학기 특정 유저레슨의 특정 노트 삭제]")
+    void deleteNote() {
+        User user = userRepository.findByClientId("test").get();
+        Lesson lesson = lessonRepository.findByLessonName("객체지향프로그래밍 2").get();
+        UserLesson findUsesrLesson = userLessonRepository.findByUserAndAndAttendedSemesterAndAndLesson(user, "2023년 2학기", lesson).get();
+        NoteRequestDTO.NoteCreateDTO request = new NoteRequestDTO.NoteCreateDTO("2023년 2학기", "노트제목");
+        NoteResponseDTO.NoteCreateDTO noteCreateDTO = noteService.createUserNote(user, findUsesrLesson.getId(), request);
+        Note note = noteRepository.findByNoteName("노트제목").get();
+        // when
+        NoteResponseDTO.NoteDeleteDTO noteDeleteDTO = noteService.deleteUserNote(user, note.getId());
+
+        // then
+        assert noteDeleteDTO.getNoteId().equals(note.getId());
+        assert noteRepository.findById(note.getId()).isEmpty();
+    }
 }
