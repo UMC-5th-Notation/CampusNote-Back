@@ -12,8 +12,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import static UMC.campusNote.common.code.status.SuccessStatus.NOTE_CREATE;
-import static UMC.campusNote.common.code.status.SuccessStatus.NOTE_GET_ALL;
+import static UMC.campusNote.common.code.status.SuccessStatus.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,6 +21,11 @@ import static UMC.campusNote.common.code.status.SuccessStatus.NOTE_GET_ALL;
 public class NoteController {
 
     private final NoteService noteService;
+
+    @GetMapping("/{lessonId}/{noteId}")
+    public ApiResponse<NoteResponseDTO.NoteGetDTO> getUserNote(@AuthenticationPrincipal User user, @PathVariable("noteId") Long noteId) {
+        return ApiResponse.of(NOTE_GET_ONE, noteService.getUserNote(user, noteId));
+    }
 
     @GetMapping("/{lessonId}")
     public ApiResponse<Slice<NoteResponseDTO.NoteGetDTO>> getUserNotes(@AuthenticationPrincipal User user, @PathVariable("lessonId") Long lessonId, @RequestParam("semester") String semester, Pageable pageable) {
