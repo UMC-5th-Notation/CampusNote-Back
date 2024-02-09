@@ -42,4 +42,9 @@ public class NoteController {
     public ApiResponse<NoteResponseDTO.NoteUpdateDTO> updateNote(@AuthenticationPrincipal User user, @PathVariable("noteId") Long noteId, @RequestBody NoteRequestDTO.NoteUpdateDTO request) {
         return ApiResponse.of(NOTE_UPDATE, noteService.updateUserNote(user, noteId, request));
     }
+
+    @DeleteMapping("/{noteId}")
+    public ApiResponse<NoteResponseDTO.NoteDeleteDTO> deleteNote(@AuthenticationPrincipal User user, @PathVariable("noteId") Long noteId) {
+        return ApiResponse.of(NOTE_DELETE, noteService.deleteUserNote(user, noteId));
+    }
 }

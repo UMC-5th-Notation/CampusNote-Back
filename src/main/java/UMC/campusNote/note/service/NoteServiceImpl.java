@@ -67,6 +67,7 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
+    @Transactional
     public NoteResponseDTO.NoteDeleteDTO deleteUserNote(User user, Long noteId) {
         Note note = noteRepository.findById(noteId).orElseThrow(() -> new GeneralException(NOTE_NOT_FOUND));
         noteRepository.delete(note);
