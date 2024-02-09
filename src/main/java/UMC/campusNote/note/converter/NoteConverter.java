@@ -1,10 +1,8 @@
 package UMC.campusNote.note.converter;
 
+import UMC.campusNote.mapping.UserLessonNote;
 import UMC.campusNote.note.dto.NoteResponseDTO;
 import UMC.campusNote.note.entity.Note;
-import UMC.campusNote.page.dto.PageRequestDTO;
-import UMC.campusNote.page.dto.PageResponseDTO;
-import UMC.campusNote.page.entity.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +13,13 @@ public class NoteConverter {
     public static NoteResponseDTO.NoteCreateDTO toNoteCreateDTO(Note note){
         return NoteResponseDTO.NoteCreateDTO.builder()
                 .noteId(note.getId())
+                .build();
+    }
+
+    public static NoteResponseDTO.NoteGetDTO toNoteGetDTO(UserLessonNote userLessonNote){
+        return NoteResponseDTO.NoteGetDTO.builder()
+                .noteId(userLessonNote.getNote().getId())
+                .noteName(userLessonNote.getNote().getNoteName())
                 .build();
     }
 }

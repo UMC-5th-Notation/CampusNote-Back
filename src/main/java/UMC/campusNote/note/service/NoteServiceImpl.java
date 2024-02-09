@@ -42,12 +42,7 @@ public class NoteServiceImpl implements NoteService {
     public Slice<NoteResponseDTO.NoteGetDTO> getUserNotes(User user, NoteRequestDTO.NoteGetDTO request, Pageable pageable) {
         UserLesson userLesson = getUserLesson(user, request.getLessonId(), request.getSemester());
         Page<UserLessonNote> userLessonNotePage = userLessonNoteRepository.findByUserLessonId(userLesson.getId(), pageable);
-        List<NoteResponseDTO.NoteGetDTO> noteGetDTOS = userLessonNotePage.getContent().stream()
-                .map(userLessonNote -> NoteResponseDTO.NoteGetDTO.builder()
-                        .noteId(userLessonNote.getNote().getId())
-                        .noteName(userLessonNote.getNote().getNoteName())
-                        .build())
-                .toList();
+        List<NoteResponseDTO.NoteGetDTO> noteGetDTOS = userLessonNotePage.getContent().stream().map(NoteConverter::toNoteGetDTO).toList();
         return new SliceImpl<>(noteGetDTOS, pageable, userLessonNotePage.hasNext());
     }
 
