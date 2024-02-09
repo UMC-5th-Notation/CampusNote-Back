@@ -1,7 +1,7 @@
-package UMC.campusNote.page;
+package UMC.campusNote.audio.entity;
 
 import UMC.campusNote.common.BaseEntity;
-import UMC.campusNote.note.Note;
+import UMC.campusNote.note.entity.Note;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,21 +13,20 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Page extends BaseEntity {
+public class Audio extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PAGE_ID")
+    @Column(name = "AUDIO_ID")
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "NOTE_ID")
     private Note note;
 
-    private String handWritingSVG; // 필기 svg
+    private String audioFile; // 녹음한 오디오 파일
 
-    private Integer pageNumber; // 페이지 넘버
-
-    private String sideNote;
-
-    private Integer round; // 회차
+    public void setNote(Note note) {
+        this.note = note;
+        note.getAudioList().add(this);
+    }
 }

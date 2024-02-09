@@ -35,6 +35,15 @@ public enum ErrorStatus implements BaseErrorCode {
     TOKEN_NOT_FOUND(HttpStatus.BAD_REQUEST, "TOKEN4001", "토큰이 존재하지 않습니다."),
     TOKEN_EXPIRED(HttpStatus.BAD_REQUEST, "TOKEN4002", "토큰이 만료되었습니다."),
     TOKEN_MALFORM(HttpStatus.BAD_REQUEST, "TOKEN4003", "토큰이 변조되었습니다."),
+
+    // 오디오 관련 에러
+    AUDIO_NOT_FOUND(HttpStatus.BAD_REQUEST, "AUDIO4001", "존재하지 않는 오디오."),
+    AUDIO_FILE_UPLOAD(HttpStatus.BAD_REQUEST, "AUDIO4003", "오디오 파일 업로드 실패."),
+    FILE_CONVERT(HttpStatus.BAD_REQUEST, "FILE4001", "파일 변환 실패."),
+    S3_UPLOAD(HttpStatus.BAD_REQUEST, "S3UPLOAD4001", "S3 파일 업로드 실패."),
+
+    // 노트 관련 에러
+    NOTE_NOT_FOUND(HttpStatus.BAD_REQUEST, "NOTE4001", "존재하지 않는 노트."),
     ;
     private final HttpStatus httpStatus;
     private final String code;

@@ -50,4 +50,8 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
             "AND l.runningTime = :#{#lesson.runningTime} " +
             "AND l.dayOfWeek = :#{#lesson.dayOfWeek}")
     Optional<Lesson> findUniqueLesson(@Param("lesson") Lesson lesson);
+
+
+    //테스트용
+    Optional<Lesson> findByLessonName(String lessonName);
 }
