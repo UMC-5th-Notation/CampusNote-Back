@@ -25,13 +25,14 @@ import static UMC.campusNote.common.code.status.ErrorStatus.*;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
-public class NoteServiceImpl {
+public class NoteServiceImpl implements NoteService {
 
     private final UserLessonRepository userLessonRepository;
     private final NoteRepository noteRepository;
     private final LessonRepository lessonRepository;
     private final UserLessonNoteRepository userLessonNoteRepository;
 
+    @Override
     @Transactional
     public NoteResponseDTO.NoteCreateDTO createUserNote(User user, NoteRequestDTO.NoteCreateDTO request) {
         return NoteConverter.toNoteCreateDTO(createNote(request.getNoteName(), getUserLesson(user, request.getLessonId(), request.getSemester())));

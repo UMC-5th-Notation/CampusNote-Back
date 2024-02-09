@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
-
 public class NoteRequestDTO {
 
     @AllArgsConstructor
