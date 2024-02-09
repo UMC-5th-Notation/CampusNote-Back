@@ -39,7 +39,12 @@ public enum SuccessStatus implements BaseCode {
     NOTE_GET_ALL(HttpStatus.OK, "NOTE201", "노트 전체 조회 성공"),
     NOTE_GET_ONE(HttpStatus.OK, "NOTE202", "노트 조회 성공"),
     NOTE_UPDATE(HttpStatus.OK, "NOTE203", "노트 수정 성공"),
-    NOTE_DELETE(HttpStatus.OK, "NOTE204", "노트 삭제 성공");
+    NOTE_DELETE(HttpStatus.OK, "NOTE204", "노트 삭제 성공"),
+
+    // 강의노트
+    LESSONNOTE_CREATE(HttpStatus.CREATED, "LESSONNOTE201", "강의 노트 업로드 성공"),
+    LESSONNOTE_GET(HttpStatus.OK, "LESSONNOTE200", "강의 노트 조회 성공"),
+    LESSONNOTE_DELETE(HttpStatus.OK, "LESSONNOTE202", "강의 노트 삭제 성공");
 
 
     private final HttpStatus httpStatus;
