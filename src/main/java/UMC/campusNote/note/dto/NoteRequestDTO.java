@@ -15,9 +15,6 @@ public class NoteRequestDTO {
     @Getter
     @Builder
     public static class NoteGetDTO{
-        @Schema(description = "레슨아이디", example = "1")
-        @NotNull
-        Long lessonId;
 
         @Schema(description = "현재 학기", example = "2024-1")
         @NotNull
@@ -30,9 +27,6 @@ public class NoteRequestDTO {
     @Getter
     @Builder
     public static class NoteCreateDTO{
-        @Schema(description = "레슨아이디", example = "1")
-        @NotNull
-        Long lessonId;
 
         @Schema(description = "현재 학기", example = "2024-1")
         @NotNull

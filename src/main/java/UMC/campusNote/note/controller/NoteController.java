@@ -7,13 +7,13 @@ import UMC.campusNote.note.service.NoteService;
 import UMC.campusNote.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static UMC.campusNote.common.code.status.SuccessStatus.NOTE_CREATE;
+import static UMC.campusNote.common.code.status.SuccessStatus.NOTE_GET_ALL;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,8 +23,13 @@ public class NoteController {
 
     private final NoteService noteService;
 
-    @PostMapping
-    public ApiResponse<NoteResponseDTO.NoteCreateDTO> createNote(@AuthenticationPrincipal User user, @RequestBody NoteRequestDTO.NoteCreateDTO request) {
-        return ApiResponse.of(NOTE_CREATE, noteService.createUserNote(user, request));
+    @GetMapping("/{lessonId}")
+    public ApiResponse<Slice<NoteResponseDTO.NoteGetDTO>> getUserNotes(@AuthenticationPrincipal User user, @PathVariable("lessonId") Long lessonId, @RequestParam("semester") String semester, Pageable pageable) {
+        return ApiResponse.of(NOTE_GET_ALL, noteService.getUserNotes(user, lessonId, semester, pageable));
+    }
+
+    @PostMapping("/{lessonId}")
+    public ApiResponse<NoteResponseDTO.NoteCreateDTO> createNote(@AuthenticationPrincipal User user, @PathVariable("lessonId") Long lessonId, @RequestBody NoteRequestDTO.NoteCreateDTO request) {
+        return ApiResponse.of(NOTE_CREATE, noteService.createUserNote(user, lessonId, request));
     }
 }

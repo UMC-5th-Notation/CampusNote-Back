@@ -8,6 +8,6 @@ import org.springframework.data.domain.Slice;
 
 public interface NoteService {
 
-    Slice<NoteResponseDTO.NoteGetDTO> getUserNotes(User user, NoteRequestDTO.NoteGetDTO request, Pageable pageable);
-    NoteResponseDTO.NoteCreateDTO createUserNote(User user, NoteRequestDTO.NoteCreateDTO request);
+    Slice<NoteResponseDTO.NoteGetDTO> getUserNotes(User user, Long lessonId, String semester, Pageable pageable);
+    NoteResponseDTO.NoteCreateDTO createUserNote(User user, Long lessonId, NoteRequestDTO.NoteCreateDTO request);
 }

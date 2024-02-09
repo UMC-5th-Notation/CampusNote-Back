@@ -39,8 +39,8 @@ public class NoteServiceImpl implements NoteService {
     private final UserLessonNoteRepository userLessonNoteRepository;
 
     @Override
-    public Slice<NoteResponseDTO.NoteGetDTO> getUserNotes(User user, NoteRequestDTO.NoteGetDTO request, Pageable pageable) {
-        UserLesson userLesson = getUserLesson(user, request.getLessonId(), request.getSemester());
+    public Slice<NoteResponseDTO.NoteGetDTO> getUserNotes(User user, Long lessonId, String semester, Pageable pageable) {
+        UserLesson userLesson = getUserLesson(user, lessonId, semester);
         Page<UserLessonNote> userLessonNotePage = userLessonNoteRepository.findByUserLessonId(userLesson.getId(), pageable);
         List<NoteResponseDTO.NoteGetDTO> noteGetDTOS = userLessonNotePage.getContent().stream().map(NoteConverter::toNoteGetDTO).toList();
         return new SliceImpl<>(noteGetDTOS, pageable, userLessonNotePage.hasNext());
@@ -48,8 +48,8 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     @Transactional
-    public NoteResponseDTO.NoteCreateDTO createUserNote(User user, NoteRequestDTO.NoteCreateDTO request) {
-        return NoteConverter.toNoteCreateDTO(createNote(request.getNoteName(), getUserLesson(user, request.getLessonId(), request.getSemester())));
+    public NoteResponseDTO.NoteCreateDTO createUserNote(User user, Long lessonId, NoteRequestDTO.NoteCreateDTO request) {
+        return NoteConverter.toNoteCreateDTO(createNote(request.getNoteName(), getUserLesson(user, lessonId, request.getSemester())));
     }
 
 

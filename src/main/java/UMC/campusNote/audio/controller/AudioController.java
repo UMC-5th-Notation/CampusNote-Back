@@ -35,7 +35,7 @@ public class AudioController {
     @GetMapping("/{noteId}/{audioId}")
     @Operation(summary = "특정 노트의 특정 녹음 파일 조회 기능",description = "특정 노트의 특정 녹음 파일들의 목록을 조회하는 API입니다")
     @ApiResponses({
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUDIO200",description = "녹음 파일 조회 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUDIO202",description = "녹음 파일 조회 성공"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUDIO4001", description = "존재하지 않는 오디오.",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
     })
     @Parameters({
@@ -49,7 +49,7 @@ public class AudioController {
     @GetMapping("/{noteId}")
     @Operation(summary = "특정 노트의 전체 녹음 파일 조회",description = "특정 노트의 전체 녹음들의 목록을 조회하는 API이며, 페이징을 포함합니다. query String 으로 page 번호를 주세요")
     @ApiResponses({
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUDIO200",description = "녹음 파일 전체 조회 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUDIO201",description = "녹음 파일 전체 조회 성공"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUDIO4001", description = "존재하지 않는 오디오",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
     })
     @Parameters({
@@ -62,7 +62,7 @@ public class AudioController {
     @PostMapping("/{noteId}")
     @Operation(summary = "특정 노트의 녹음 파일을 등록하는 API",description = "특정 노트의 녹음 파일을 등록하는 API이며, 녹음 파일을 등록합니다. 녹음 파일은 Multipart입니다.")
     @ApiResponses({
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUDIO201",description = "녹음 생성 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUDIO200",description = "녹음 생성 성공"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUDIO4003", description = "오디오 파일 업로드 실패.",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "FILE4001", description = "파일 변환 실패",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "S3UPLOAD4001", description = "S3 파일 업로드 실패.",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
@@ -78,7 +78,7 @@ public class AudioController {
     @DeleteMapping("/{audioId}")
     @Operation(summary = "특정 녹음 파일을 삭제하는 API",description = "특정 노트의 녹음 파일을 삭제하는 API입니다")
     @ApiResponses({
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUDIO202",description = "녹음 파일 삭제 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUDIO203",description = "녹음 파일 삭제 성공"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUDIO4001", description = "존재하지 않는 오디오.",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
     })
     @Parameters({
