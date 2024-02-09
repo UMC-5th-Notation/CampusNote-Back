@@ -18,10 +18,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 
 @SpringBootTest
+@ActiveProfiles("test")
 class NoteServiceImplTest {
 
     @Autowired
@@ -63,6 +67,23 @@ class NoteServiceImplTest {
         userRepository.save(user);
         lessonRepository.save(lesson);
         userLessonRepository.save(userLesson);
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("[특정 학기 특정 유저레슨의 노트 전체 조회]")
+    void getAllUserNotes() {
+        User user = userRepository.findByClientId("test").get();
+        Lesson lesson = lessonRepository.findByLessonName("객체지향프로그래밍 2").get();
+        UserLesson findUsesrLesson = userLessonRepository.findByUserAndAndAttendedSemesterAndAndLesson(user, "2023년 2학기", lesson).get();
+        NoteRequestDTO.NoteGetDTO request = new NoteRequestDTO.NoteGetDTO(findUsesrLesson.getId(), "2023년 2학기");
+
+        // when
+        NoteRequestDTO.NoteCreateDTO request2 = new NoteRequestDTO.NoteCreateDTO(findUsesrLesson.getId(), "2023년 2학기", "노트제목");
+        noteService.createUserNote(user, request2);
+        Slice<NoteResponseDTO.NoteGetDTO> userNotes = noteService.getUserNotes(user, request, Pageable.ofSize(10));
+        // then
+        assert userNotes.getContent().size() == 1;
     }
 
     @Test
