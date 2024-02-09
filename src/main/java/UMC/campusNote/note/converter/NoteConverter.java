@@ -29,4 +29,10 @@ public class NoteConverter {
                 .noteName(note.getNoteName())
                 .build();
     }
+
+    public static NoteResponseDTO.NoteUpdateDTO toNoteUpdateDTO(Note note) {
+        return NoteResponseDTO.NoteUpdateDTO.builder()
+                .noteId(note.getId())
+                .build();
+    }
 }

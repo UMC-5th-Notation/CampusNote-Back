@@ -37,5 +37,17 @@ public class NoteRequestDTO {
         String noteName;
     }
 
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class NoteUpdateDTO{
+
+        @Schema(description = "노트이름", example = "노트이름")
+        @NotNull
+        String noteName;
+    }
+
+
 
 }

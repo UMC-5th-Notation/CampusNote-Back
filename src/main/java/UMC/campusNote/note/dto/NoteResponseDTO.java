@@ -24,5 +24,13 @@ public class NoteResponseDTO {
         Long noteId;
     }
 
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class NoteUpdateDTO{
+        Long noteId;
+    }
+
 
 }

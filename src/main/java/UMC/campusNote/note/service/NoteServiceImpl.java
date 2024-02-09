@@ -58,6 +58,12 @@ public class NoteServiceImpl implements NoteService {
         return NoteConverter.toNoteCreateDTO(createNote(request.getNoteName(), getUserLesson(user, lessonId, request.getSemester())));
     }
 
+    @Override
+    public NoteResponseDTO.NoteUpdateDTO updateUserNote(User user, Long noteId, NoteRequestDTO.NoteUpdateDTO request) {
+        Note note = noteRepository.findById(noteId).orElseThrow(() -> new GeneralException(NOTE_NOT_FOUND));
+        note.setNoteName(request.getNoteName());
+        return NoteConverter.toNoteUpdateDTO(noteRepository.save(note));
+    }
 
 
     private UserLesson getUserLesson(User user, Long lessonId, String semester) {

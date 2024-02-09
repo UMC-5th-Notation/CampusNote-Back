@@ -49,4 +49,7 @@ public class Note extends BaseEntity {
     @Builder.Default
     private List<Audio> audioList = new ArrayList<>();
 
+    public void setNoteName(String noteName) {
+        this.noteName = noteName;
+    }
 }
