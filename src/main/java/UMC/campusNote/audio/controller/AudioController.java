@@ -1,7 +1,7 @@
 package UMC.campusNote.audio.controller;
 
 
-import UMC.campusNote.audio.dto.AudioResDto;
+import UMC.campusNote.audio.dto.AudioResponseDTO;
 import UMC.campusNote.audio.service.AudioService;
 import UMC.campusNote.common.ApiResponse;
 import UMC.campusNote.common.s3.dto.S3UploadRequest;
@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -41,7 +42,7 @@ public class AudioController {
             @Parameter(name = "noteId", description = "노트의 아이디, path variable 입니다"),
             @Parameter(name = "audioId", description = "오디오의 아이디, path variable 입니다")
     })
-    public ApiResponse<AudioResDto> getAudio(@PathVariable("noteId") Long noteId, @PathVariable("audioId") Long audioId) {
+    public ApiResponse<AudioResponseDTO.AudioDTO> getAudio(@PathVariable("noteId") Long noteId, @PathVariable("audioId") Long audioId) {
         return ApiResponse.of(AUDIO_GET_ONE, audioService.getAudio(audioId));
     }
 
@@ -54,8 +55,8 @@ public class AudioController {
     @Parameters({
             @Parameter(name = "noteId", description = "노트의 아이디, path variable 입니다")
     })
-    public ApiResponse<Slice<AudioResDto>> getAudios(@PathVariable("noteId") Long noteId) {
-        return ApiResponse.of(AUDIO_GET_ALL, audioService.getAudios(noteId));
+    public ApiResponse<Slice<AudioResponseDTO.AudioDTO>> getAudios(@PathVariable("noteId") Long noteId, Pageable pageable) {
+        return ApiResponse.of(AUDIO_GET_ALL, audioService.getAudios(noteId, pageable));
     }
 
     @PostMapping("/{noteId}")
@@ -70,7 +71,7 @@ public class AudioController {
             @Parameter(name = "noteId", description = "노트의 아이디, path variable 입니다"),
             @Parameter(name = "audioFile", description = "녹음 파일, Multipart 입니다")
     })
-    public ApiResponse<AudioResDto> uploadAudio(@AuthenticationPrincipal User user, @PathVariable("noteId") Long noteId, @RequestParam("audioFile") MultipartFile audioFile) {
+    public ApiResponse<AudioResponseDTO.AudioDTO> uploadAudio(@AuthenticationPrincipal User user, @PathVariable("noteId") Long noteId, @RequestParam("audioFile") MultipartFile audioFile) {
         return ApiResponse.of(AUDIO_CREATE, audioService.saveAudio(new S3UploadRequest(user.getId(), "audios"), noteId, audioFile));
     }
 
@@ -83,7 +84,7 @@ public class AudioController {
     @Parameters({
             @Parameter(name = "audioId", description = "audoi의 아이디, path variable 입니다"),
     })
-    public ApiResponse<AudioResDto> deleteAudio(@PathVariable("audioId") Long audioId) {
+    public ApiResponse<AudioResponseDTO.AudioDTO> deleteAudio(@PathVariable("audioId") Long audioId) {
         return ApiResponse.of(AUDIO_DELETE, audioService.deleteAudio(audioId));
     }
 }
