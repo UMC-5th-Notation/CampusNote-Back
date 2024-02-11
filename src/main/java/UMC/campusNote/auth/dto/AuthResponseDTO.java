@@ -32,8 +32,6 @@ public class AuthResponseDTO {
     @NoArgsConstructor
     @Getter
     public static class RefreshResDTO {
-
         private String accessToken;
-
     }
 }

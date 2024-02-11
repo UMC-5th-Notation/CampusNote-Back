@@ -38,7 +38,6 @@ public class AuthRequestDTO {
     @Builder
     @Getter
     public static class LoginReqDTO {
-
         @NotBlank
         private String clientId;
     }

@@ -21,6 +21,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signUp")
+
     public ApiResponse<AuthResponseDTO.JoinResDTO> join(@RequestBody @Valid AuthRequestDTO.JoinReqDTO joinReqDto){
         return ApiResponse.of(USER_JOIN, authService.join(joinReqDto));
     }
