@@ -11,7 +11,9 @@ import java.util.Optional;
 public interface UserLessonRepository extends JpaRepository<UserLesson, Long> {
     Optional<List<UserLesson>> findByUser(User user);
 
-    Optional<List<UserLesson>> findByUserAndAndAttendedSemester(User user, String attendedSemester);
+    Optional<List<UserLesson>> findByUserAndAttendedSemester(User user, String attendedSemester);
 
-    Optional<UserLesson> findByUserAndAndAttendedSemesterAndAndLesson(User user, String attendedSemester, Lesson lesson);
+    Optional<UserLesson> findByUserAndAttendedSemesterAndLesson(User user, String attendedSemester, Lesson lesson);
+
+    Optional<UserLesson> findByUserAndLesson(User user, Lesson lesson);
 }
