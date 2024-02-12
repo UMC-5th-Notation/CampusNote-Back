@@ -78,7 +78,7 @@ public class NoteServiceImpl implements NoteService {
     private UserLesson getUserLesson(User user, Long lessonId, String semester) {
         Lesson lesson = lessonRepository.findById(lessonId).orElseThrow(
                 () -> new GeneralException(LESSON_NOT_FOUND));
-        return userLessonRepository.findByUserAndAndAttendedSemesterAndAndLesson(user, semester, lesson)
+        return userLessonRepository.findByUserAndAttendedSemesterAndLesson(user, semester, lesson)
                 .orElseThrow(() -> new GeneralException(USER_LESSON_NOT_FOUND));
     }
 
