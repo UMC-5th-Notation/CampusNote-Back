@@ -3,8 +3,8 @@ package UMC.campusNote.lesson.controller;
 import UMC.campusNote.common.ApiResponse;
 import UMC.campusNote.common.code.status.ErrorStatus;
 import UMC.campusNote.common.code.status.SuccessStatus;
-import UMC.campusNote.lesson.dto.CrawlingRequest;
-import UMC.campusNote.lesson.dto.LessonDto;
+import UMC.campusNote.lesson.dto.LessonRequestDTO;
+import UMC.campusNote.lesson.dto.LessonResponseDTO;
 import UMC.campusNote.lesson.exception.CrawlingException;
 import UMC.campusNote.lesson.service.CrawlingService;
 import UMC.campusNote.user.entity.User;
@@ -30,19 +30,17 @@ public class CrawlingController {
     //https://everytime.kr/@zjmhATXF5czcDHm78zDZ
     //https://everytime.kr/@MVXWO0FP3qdoA0tGis4c
 
-    //warn id gap
     @PostMapping(value = "/api/v1/crawl")
-    public ApiResponse<List<LessonDto>> crawling(@AuthenticationPrincipal User user,
-                                                 @Valid @RequestBody CrawlingRequest crawlingRequest,
-                                                 BindingResult bindingResult) {
+    public ApiResponse<List<LessonResponseDTO.FindResultDTO>> crawling(@AuthenticationPrincipal User user,
+                                                                       @Valid @RequestBody LessonRequestDTO.CrawlingDTO crawlingDTO,
+                                                                       BindingResult bindingResult) {
 
         log.info("enter CrawlngController : [post] /api/v1/crawl");
 
         if (bindingResult.hasErrors()) {
-            // ex. null, invalid request body data
             throw new CrawlingException(ErrorStatus.CRAWLING_URL_BINDING_FAULT);
         }
-        List<LessonDto> results = crawlingService.action(crawlingRequest.getUrl(), user.getId());
+        List<LessonResponseDTO.FindResultDTO> results = crawlingService.action(crawlingDTO.getUrl(), user.getId());
 
         return ApiResponse.of(SuccessStatus.CRAWLING_OK, results);
     }

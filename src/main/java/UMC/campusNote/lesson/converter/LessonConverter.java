@@ -1,8 +1,6 @@
 package UMC.campusNote.lesson.converter;
 
-
-import UMC.campusNote.lesson.dto.LessonDto;
-import UMC.campusNote.lesson.dto.LessonDetailsDto;
+import UMC.campusNote.lesson.dto.LessonResponseDTO;
 import UMC.campusNote.lesson.entity.Lesson;
 import UMC.campusNote.mapping.UserLesson;
 
@@ -10,26 +8,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LessonConverter {
-    public static List<LessonDto> userLessonsToLessonDtos(List<UserLesson> action) {
+    public static List<LessonResponseDTO.FindResultDTO> toCreateResultDTOList(List<UserLesson> action) {
 
-        List<LessonDto> responses = new ArrayList<>();
+        List<LessonResponseDTO.FindResultDTO> responses = new ArrayList<>();
 
         for (UserLesson memberLesson : action) {
-//            Member member = memberLesson.getMember();
             Lesson lesson = memberLesson.getLesson();
 
             boolean dup = false;
-            LessonDto dupResponse = null;
+            LessonResponseDTO.FindResultDTO dupResponse = null;
             if (!responses.isEmpty()) {
-                for (LessonDto lessonDto : responses) {
-                    if (lessonDto.getLessonName().equals(lesson.getLessonName())) {
+                for (LessonResponseDTO.FindResultDTO findResultDTO : responses) {
+                    if (findResultDTO.getLessonName().equals(lesson.getLessonName())) {
                         dup = true;
-                        dupResponse = lessonDto;
+                        dupResponse = findResultDTO;
                     }
                 }
             }
 
-            LessonDetailsDto lessonDetailsDto = LessonDetailsDto.builder()
+            LessonResponseDTO.FindResultDetailsDTO findResultDetailsDTO = LessonResponseDTO.FindResultDetailsDTO.builder()
                     .professorName(lesson.getProfessorName())
                     .location(lesson.getLocation())
                     .startTime(lesson.getStartTime())
@@ -38,39 +35,39 @@ public class LessonConverter {
                     .build();
 
             if (dup) {
-                dupResponse.getLessonDetailsDtoList().add(lessonDetailsDto);
+                dupResponse.getFindResultDetailsDTOList().add(findResultDetailsDTO);
             } else {
-                LessonDto lessonDto = LessonDto.builder()
+                LessonResponseDTO.FindResultDTO findResultDTO = LessonResponseDTO.FindResultDTO.builder()
                         .id(lesson.getId())
                         .university(lesson.getUniversity())
                         .semester(lesson.getSemester())
                         .lessonName(lesson.getLessonName())
                         .build();
-                lessonDto.getLessonDetailsDtoList().add(lessonDetailsDto);
+                findResultDTO.getFindResultDetailsDTOList().add(findResultDetailsDTO);
 
-                responses.add(lessonDto);
+                responses.add(findResultDTO);
             }
         }
         return responses;
     }
 
-    public static LessonDto oneLessonToLessonDto(Lesson lesson) {
+    public static LessonResponseDTO.FindResultDTO toCreateResultDTO(Lesson lesson) {
 
-        LessonDetailsDto build = LessonDetailsDto.builder()
+        LessonResponseDTO.FindResultDetailsDTO build = LessonResponseDTO.FindResultDetailsDTO.builder()
                 .professorName(lesson.getProfessorName())
                 .location(lesson.getLocation())
                 .startTime(lesson.getStartTime())
                 .runningTime(lesson.getRunningTime())
                 .dayOfWeek(lesson.getDayOfWeek())
                 .build();
-        List<LessonDetailsDto> list = new ArrayList<>();
+        List<LessonResponseDTO.FindResultDetailsDTO> list = new ArrayList<>();
         list.add(build);
-        return LessonDto.builder()
+        return LessonResponseDTO.FindResultDTO.builder()
                 .id(lesson.getId())
                 .university(lesson.getUniversity())
                 .semester(lesson.getSemester())
                 .lessonName(lesson.getLessonName())
-                .lessonDetailsDtoList(list)
+                .findResultDetailsDTOList(list)
                 .build();
     }
 
