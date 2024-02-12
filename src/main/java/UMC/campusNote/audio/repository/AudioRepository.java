@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AudioRepository extends JpaRepository<Audio, Long> {
 
-    Page<Audio> findByNoteId(Long noteId, Pageable pageable);
 
+    Slice<Audio> findByNoteId(Long noteId);
+    Page<Audio> findByNoteId(Long noteId, Pageable pageable);
 }

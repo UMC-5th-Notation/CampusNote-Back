@@ -1,7 +1,8 @@
 package UMC.campusNote.audio.service;
 
 
-import UMC.campusNote.audio.dto.AudioResDto;
+import UMC.campusNote.audio.converter.AudioConverter;
+import UMC.campusNote.audio.dto.AudioResponseDTO;
 import UMC.campusNote.audio.entity.Audio;
 import UMC.campusNote.audio.repository.AudioRepository;
 import UMC.campusNote.common.exception.GeneralException;
@@ -33,38 +34,39 @@ public class AudioServiceImpl implements AudioService {
     private final S3Provider s3Provider;
 
     @Override
-    public AudioResDto getAudio(Long audioId) {
+    public AudioResponseDTO.AudioDTO getAudio(Long audioId) {
         Audio audio = audioRepository.findById(audioId).orElseThrow(() -> new GeneralException(NOTE_NOT_FOUND));
-        return AudioResDto.fromEntity(audio.getId(), audio.getAudioFile());
+        return AudioConverter.toAudioDTO(audio.getId(), audio.getAudioFile());
     }
 
     @Override
-    public Slice<AudioResDto> getAudios(Long noteId, Pageable pageable) {
+    public Slice<AudioResponseDTO.AudioDTO> getAudios(Long noteId, Pageable pageable) {
         Page<Audio> audioPage = audioRepository.findByNoteId(noteId, pageable);
-        List<AudioResDto> audioResDtos = audioPage.getContent().stream()
-                .map(audio -> AudioResDto.fromEntity(audio.getId(), audio.getAudioFile()))
+
+        List<AudioResponseDTO.AudioDTO> audioResDtos = audioPage.getContent().stream()
+                .map(audio -> AudioConverter.toAudioDTO(audio.getId(), audio.getAudioFile()))
                 .toList();
         return new SliceImpl<>(audioResDtos, pageable, audioPage.hasNext());
     }
 
     @Override
     @Transactional
-    public AudioResDto saveAudio(S3UploadRequest request, Long noteId, MultipartFile audioFile) {
+    public AudioResponseDTO.AudioDTO saveAudio(S3UploadRequest request, Long noteId, MultipartFile audioFile) {
         String url = s3Provider.multipartFileUpload(audioFile, request);
         Audio audio = Audio.builder()
                 .audioFile(url)
                 .build();
         audio.setNote(noteRepository.findById(noteId).orElseThrow(() -> new GeneralException(NOTE_NOT_FOUND)));
         Audio saveAudio = audioRepository.save(audio);
-        return AudioResDto.fromEntity(saveAudio.getId(), saveAudio.getAudioFile()) ;
+        return AudioConverter.toAudioDTO(saveAudio.getId(), saveAudio.getAudioFile());
     }
 
     @Override
     @Transactional
-    public AudioResDto deleteAudio(Long audioId) {
+    public AudioResponseDTO.AudioDTO deleteAudio(Long audioId) {
         Audio audio = audioRepository.findById(audioId).orElseThrow(() -> new GeneralException(NOTE_NOT_FOUND));
         audioRepository.delete(audio);
-        return AudioResDto.fromEntity(audio.getId(), null);
+        return AudioConverter.toAudioDTO(audio.getId(), null);
     }
 
 
