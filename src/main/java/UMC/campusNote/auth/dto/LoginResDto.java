@@ -10,11 +10,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class LoginResDto {
+    private Long userId;
     private String accessToken;
     private String refreshToken;
 
-    public static LoginResDto fromEntity(String accessToken, String refreshToken){
+    public static LoginResDto fromEntity(Long userId, String accessToken, String refreshToken){
         return LoginResDto.builder()
+                .userId(userId)
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();

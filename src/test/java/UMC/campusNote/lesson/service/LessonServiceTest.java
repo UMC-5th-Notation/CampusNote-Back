@@ -66,7 +66,6 @@ class LessonServiceTest {
         userRepository.save(user);
 
         when(userRepository.findById(user.getId()))
-                .thenReturn(Optional.of(user));
         when(userLessonRepository.findByUserAndAttendedSemester(user, "semester"))
                 .thenReturn(Optional.empty());
         LessonException exception = assertThrows(
@@ -108,7 +107,6 @@ class LessonServiceTest {
 
         when(lessonRepository.findById(lesson.getId()))
                 .thenReturn(Optional.empty());
-
         LessonException exception = assertThrows(
                 LessonException.class, () -> {
                     lessonService.findLessonDetails(lesson.getId());
@@ -135,7 +133,6 @@ class LessonServiceTest {
     @Test
     @DisplayName("[커스텀 수업 생성 실패] invalid userId")
     void createCustomLesson_fail_invalid_userId() {
-
         LessonRequestDTO.CreateDTO createDTO = new LessonRequestDTO.CreateDTO();
         User user = new User();
         userRepository.save(user);
@@ -194,14 +191,12 @@ class LessonServiceTest {
 
     @Test
     @DisplayName("[커스텀 수업 생성 실패] new(x) dup(o)")
-    void createCustomLesson_success_notNew_Dup() {
         LessonRequestDTO.CreateDTO createDTO = new LessonRequestDTO.CreateDTO("AttendedSemester", "Semester", "LessonName",
                 "ProfessorName", "Location", "StartTime", "RunningTime", "DayOfWeek");
         User user = new User();
         userRepository.save(user);
 
         UserLesson userLesson = new UserLesson();
-
         Lesson existingLesson = Lesson.createLesson(user.getUniversity(), createDTO.getSemester(), createDTO.getLessonName(),
                 createDTO.getProfessorName(), createDTO.getLocation(), createDTO.getStartTime(),
                 createDTO.getRunningTime(), createDTO.getDayOfWeek());
@@ -313,5 +308,4 @@ class LessonServiceTest {
         assertThat(exception.getErrorReasonHttpStatus())
                 .isEqualTo(ErrorStatus.LESSON_NOT_FOUND.getReasonHttpStatus());
     }
-
 }

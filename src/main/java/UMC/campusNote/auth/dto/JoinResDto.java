@@ -8,10 +8,12 @@ import lombok.Getter;
 @Getter
 @Builder
 public class JoinResDto {
+    private Long userId;
     private String accesstoken;
     private String refreshtoken;
-    public static JoinResDto fromEntity(String accesstoken, String refreshtoken){
+    public static JoinResDto fromEntity(Long userId, String accesstoken, String refreshtoken){
         return JoinResDto.builder()
+                .userId(userId)
                 .accesstoken(accesstoken)
                 .refreshtoken(refreshtoken)
                 .build();

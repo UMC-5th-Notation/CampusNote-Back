@@ -1,12 +1,11 @@
-package UMC.campusNote.note;
+package UMC.campusNote.note.entity;
 
-import UMC.campusNote.audio.Audio;
-import UMC.campusNote.classSideNote.ClassSideNote;
+import UMC.campusNote.audio.entity.Audio;
 import UMC.campusNote.common.BaseEntity;
 import UMC.campusNote.image.Image;
-import UMC.campusNote.lessonNote.LessonNote;
+import UMC.campusNote.lessonNote.entity.LessonNote;
 import UMC.campusNote.mapping.UserLessonNote;
-import UMC.campusNote.page.Page;
+import UMC.campusNote.page.entity.Page;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -49,4 +48,8 @@ public class Note extends BaseEntity {
     @OneToMany(mappedBy = "note", cascade = CascadeType.ALL)
     @Builder.Default
     private List<Audio> audioList = new ArrayList<>();
+
+    public void setNoteName(String noteName) {
+        this.noteName = noteName;
+    }
 }

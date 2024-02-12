@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static UMC.campusNote.auth.jwt.JwtProvider.HEADER_AUTHORIZATION;
 import static UMC.campusNote.auth.jwt.JwtProvider.TOKEN_PREFIX;
+import static UMC.campusNote.common.code.status.ErrorStatus.USER_ALREADY_EXIST;
 import static UMC.campusNote.common.code.status.ErrorStatus.USER_NOT_FOUND;
 
 
@@ -30,25 +31,29 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public JoinResDto join(JoinReqDto joinReqDto) {
+        userRepository.findByClientId(joinReqDto.getClientId())
+                .ifPresent( user -> {
+                    throw new GeneralException(USER_ALREADY_EXIST);
+                });
         User user = joinReqDto.toEntity();
         User savedUser = userRepository.save(user);
         String accessToken = jwtProvider.generateToken(user);
         String refreshToken = jwtProvider.generateRefreshToken(user);
         saveUserToken(savedUser, refreshToken);
-        return JoinResDto.fromEntity(accessToken, refreshToken);
+        return JoinResDto.fromEntity(savedUser.getId(), accessToken, refreshToken);
     }
 
     @Override
     @Transactional
     public LoginResDto login(LoginReqDto loginReqDto) {
-        log.info("loginReqDto.getClientId() : {}", loginReqDto.getClientId());
+        //log.info("loginReqDto.getClientId() : {}", loginReqDto.getClientId());
         User user = userRepository.findByClientId(loginReqDto.getClientId())
                 .orElseThrow(() -> new GeneralException(USER_NOT_FOUND));
         String accessToken = jwtProvider.generateToken(user);
         String refreshToken = jwtProvider.generateRefreshToken(user);
         revokeAllUserTokens(user);
         saveUserToken(user, refreshToken);
-        return LoginResDto.fromEntity(accessToken, refreshToken);
+        return LoginResDto.fromEntity(user.getId(), accessToken, refreshToken);
     }
 
     @Override
