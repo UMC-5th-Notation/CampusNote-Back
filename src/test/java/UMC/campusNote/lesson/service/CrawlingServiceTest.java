@@ -144,7 +144,7 @@ class CrawlingServiceTest {
         boolean isSet = true;
 
         when(lessonRepository.findUniqueLesson(lesson)).thenReturn(Optional.of(lesson));
-        when(userLessonRepository.findByUserAndAndAttendedSemesterAndAndLesson(user, lesson.getSemester(), lesson))
+        when(userLessonRepository.findByUserAndAttendedSemesterAndLesson(user, lesson.getSemester(), lesson))
                 .thenReturn(Optional.of(new UserLesson())); // isDup
 
         assertThat(crawlingService.saveUserAndUserLesson(user, lesson, isSet)).isNull();
@@ -159,7 +159,7 @@ class CrawlingServiceTest {
         boolean isSet = true;
 
         when(lessonRepository.findUniqueLesson(lesson)).thenReturn(Optional.of(lesson));
-        when(userLessonRepository.findByUserAndAndAttendedSemesterAndAndLesson(user, lesson.getSemester(), lesson))
+        when(userLessonRepository.findByUserAndAttendedSemesterAndLesson(user, lesson.getSemester(), lesson))
                 .thenReturn(Optional.empty());
 
         crawlingService.saveUserAndUserLesson(user, lesson, isSet);

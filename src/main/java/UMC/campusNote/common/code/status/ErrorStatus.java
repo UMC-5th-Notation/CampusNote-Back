@@ -12,15 +12,18 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // 가장 일반적인 응답
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "COMMON500", "서버 에러, 관리자에게 문의 바랍니다."),
-    BAD_REQUEST(HttpStatus.BAD_REQUEST,"COMMON400","잘못된 요청입니다."),
-    UNAUTHORIZED(HttpStatus.UNAUTHORIZED,"COMMON401","로그인 인증이 필요합니다."),
+    BAD_REQUEST(HttpStatus.BAD_REQUEST, "COMMON400", "잘못된 요청입니다."),
+    UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "COMMON401", "로그인 인증이 필요합니다."),
     FORBIDDEN(HttpStatus.FORBIDDEN, "COMMON403", "금지된 요청입니다."),
 
     // 레슨 관련 에러
-    LESSON_NOT_FOUND(HttpStatus.BAD_REQUEST, "LESSON4001","존재하지 않는 수업."),
-    LESSONS_NOT_FOUND(HttpStatus.BAD_REQUEST, "LESSON4002","해당학기 수업 정보가 없습니다."),
-    LESSONS_ALREADY_HAVE(HttpStatus.BAD_REQUEST, "LESSON4003","중복된 수업."),
-    USERLESSON_NOT_FOUND(HttpStatus.BAD_REQUEST, "LESSON4004","존재하지 않는 유저레슨."),
+    LESSON_NOT_FOUND(HttpStatus.BAD_REQUEST, "LESSON4001", "존재하지 않는 수업."),
+    LESSONS_NOT_FOUND(HttpStatus.BAD_REQUEST, "LESSON4002", "해당학기 수업 정보가 없습니다."),
+    LESSONS_ALREADY_HAVE(HttpStatus.BAD_REQUEST, "LESSON4003", "중복된 수업."),
+    LESSON_REQUEST_CREATE_BINDING_FAULT(HttpStatus.BAD_REQUEST, "LESSON4004", "파라미터 바인딩 실패."),
+
+    // 유저레슨 관련 에러
+    USERLESSON_NOT_FOUND(HttpStatus.BAD_REQUEST, "USERLESSON4001", "존재하지 않는 유저레슨."),
 
     // 크롤링 관련 에러
     CRAWLING_URL_INVALID(HttpStatus.BAD_REQUEST, "URL4001", "적절하지 않은 url."),
