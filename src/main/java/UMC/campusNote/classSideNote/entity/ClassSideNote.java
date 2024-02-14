@@ -1,6 +1,6 @@
 package UMC.campusNote.classSideNote.entity;
 
-import UMC.campusNote.classSideNote.dto.ClassSideNoteRequestDTO.UpdateSideNoteRequest;
+import UMC.campusNote.classSideNote.dto.ClassSideNoteRequestDTO.ClassSideNoteUpdateDTO;
 import UMC.campusNote.common.BaseEntity;
 import UMC.campusNote.mapping.UserLesson;
 import jakarta.persistence.*;
@@ -44,7 +44,7 @@ public class ClassSideNote extends BaseEntity {
         return this;
     }
 
-    public ClassSideNote update(UpdateSideNoteRequest request) {
+    public ClassSideNote update(ClassSideNoteUpdateDTO request) {
         this.content = request.getContent();
         this.deadline = request.getDeadline();
         return this;
