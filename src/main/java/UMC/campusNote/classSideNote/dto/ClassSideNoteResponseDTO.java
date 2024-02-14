@@ -1,6 +1,5 @@
 package UMC.campusNote.classSideNote.dto;
 
-import jdk.jshell.Snippet;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +13,7 @@ public class ClassSideNoteResponseDTO {
     @Setter
     @Builder
     @AllArgsConstructor
-    public static class ClassSideNoteResponse {
+    public static class ClassSideNoteResultDTO {
         @NonNull
         private Long id;
 
