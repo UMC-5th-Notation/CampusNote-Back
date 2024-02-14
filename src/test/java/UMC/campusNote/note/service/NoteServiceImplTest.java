@@ -74,7 +74,7 @@ class NoteServiceImplTest {
     void getAllUserNote() {
         User user = userRepository.findByClientId("test").get();
         Lesson lesson = lessonRepository.findByLessonName("객체지향프로그래밍 2").get();
-        UserLesson findUsesrLesson = userLessonRepository.findByUserAndAndAttendedSemesterAndAndLesson(user, "2023년 2학기", lesson).get();
+        UserLesson findUsesrLesson = userLessonRepository.findByUserAndAttendedSemesterAndLesson(user, "2023년 2학기", lesson).get();
         NoteRequestDTO.NoteCreateDTO request = new NoteRequestDTO.NoteCreateDTO("2023년 2학기", "노트제목");
         NoteResponseDTO.NoteCreateDTO noteCreateDTO = noteService.createUserNote(user, findUsesrLesson.getId(), request);
         // when
@@ -90,7 +90,7 @@ class NoteServiceImplTest {
     void getAllUserNotes() {
         User user = userRepository.findByClientId("test").get();
         Lesson lesson = lessonRepository.findByLessonName("객체지향프로그래밍 2").get();
-        UserLesson findUsesrLesson = userLessonRepository.findByUserAndAndAttendedSemesterAndAndLesson(user, "2023년 2학기", lesson).get();
+        UserLesson findUsesrLesson = userLessonRepository.findByUserAndAttendedSemesterAndLesson(user, "2023년 2학기", lesson).get();
         NoteRequestDTO.NoteCreateDTO request2 = new NoteRequestDTO.NoteCreateDTO("2023년 2학기", "노트제목");
         noteService.createUserNote(user, findUsesrLesson.getId(), request2);
         Slice<NoteResponseDTO.NoteGetDTO> userNotes = noteService.getUserNotes(user, findUsesrLesson.getId(), "2023년 2학기", Pageable.ofSize(10));
@@ -104,7 +104,7 @@ class NoteServiceImplTest {
     void createUserNote() {
         User user = userRepository.findByClientId("test").get();
         Lesson lesson = lessonRepository.findByLessonName("객체지향프로그래밍 2").get();
-        UserLesson findUsesrLesson = userLessonRepository.findByUserAndAndAttendedSemesterAndAndLesson(user, "2023년 2학기", lesson).get();
+        UserLesson findUsesrLesson = userLessonRepository.findByUserAndAttendedSemesterAndLesson(user, "2023년 2학기", lesson).get();
         NoteRequestDTO.NoteCreateDTO request = new NoteRequestDTO.NoteCreateDTO("2023년 2학기", "노트제목");
 
         // when
@@ -121,7 +121,7 @@ class NoteServiceImplTest {
     void updateNoteName() {
         User user = userRepository.findByClientId("test").get();
         Lesson lesson = lessonRepository.findByLessonName("객체지향프로그래밍 2").get();
-        UserLesson findUsesrLesson = userLessonRepository.findByUserAndAndAttendedSemesterAndAndLesson(user, "2023년 2학기", lesson).get();
+        UserLesson findUsesrLesson = userLessonRepository.findByUserAndAttendedSemesterAndLesson(user, "2023년 2학기", lesson).get();
         NoteRequestDTO.NoteCreateDTO request = new NoteRequestDTO.NoteCreateDTO("2023년 2학기", "노트제목");
         NoteResponseDTO.NoteCreateDTO noteCreateDTO = noteService.createUserNote(user, findUsesrLesson.getId(), request);
         Note note = noteRepository.findByNoteName("노트제목").get();
@@ -142,7 +142,7 @@ class NoteServiceImplTest {
     void deleteNote() {
         User user = userRepository.findByClientId("test").get();
         Lesson lesson = lessonRepository.findByLessonName("객체지향프로그래밍 2").get();
-        UserLesson findUsesrLesson = userLessonRepository.findByUserAndAndAttendedSemesterAndAndLesson(user, "2023년 2학기", lesson).get();
+        UserLesson findUsesrLesson = userLessonRepository.findByUserAndAttendedSemesterAndLesson(user, "2023년 2학기", lesson).get();
         NoteRequestDTO.NoteCreateDTO request = new NoteRequestDTO.NoteCreateDTO("2023년 2학기", "노트제목");
         NoteResponseDTO.NoteCreateDTO noteCreateDTO = noteService.createUserNote(user, findUsesrLesson.getId(), request);
         Note note = noteRepository.findByNoteName("노트제목").get();
