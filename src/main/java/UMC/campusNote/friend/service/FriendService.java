@@ -1,7 +1,6 @@
 package UMC.campusNote.friend.service;
 
 import UMC.campusNote.common.exception.GeneralException;
-
 import UMC.campusNote.friend.converter.FriendConverter;
 import UMC.campusNote.friend.dto.FriendRequestDTO;
 
@@ -37,7 +36,6 @@ public class FriendService {
                 .ifPresent(friend1 -> {
                     throw new GeneralException(FRIEND_ALREADY_EXIST);
                 });
-
 
         Friend friend = FriendConverter.fromEntity(invited, inviter);
 
