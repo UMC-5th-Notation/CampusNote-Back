@@ -1,12 +1,9 @@
 package UMC.campusNote.friend.service;
 
 import UMC.campusNote.common.exception.GeneralException;
-<<<<<<< HEAD
 import UMC.campusNote.friend.converter.FriendConverter;
 import UMC.campusNote.friend.dto.FriendRequestDTO;
-=======
-import UMC.campusNote.friend.dto.AddFriendReqDto;
->>>>>>> f48bd7b1b20b984b1b6589a058a71b1dac291212
+
 import UMC.campusNote.friend.entity.Friend;
 import UMC.campusNote.friend.repository.FriendRepository;
 import UMC.campusNote.user.entity.User;
@@ -14,13 +11,8 @@ import UMC.campusNote.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD
 import static UMC.campusNote.common.code.status.ErrorStatus.*;
-=======
 
-import static UMC.campusNote.common.code.status.ErrorStatus.FRIEND_ALREADY_EXIST;
-import static UMC.campusNote.common.code.status.ErrorStatus.USER_NOT_FOUND;
->>>>>>> f48bd7b1b20b984b1b6589a058a71b1dac291212
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +20,6 @@ public class FriendService {
     private final FriendRepository friendRepository;
     private final UserRepository userRepository;
 
-<<<<<<< HEAD
     public void addFriend(FriendRequestDTO.AddFriendReqDTO addFriendReqDto) {
 
         Long inviterId = addFriendReqDto.getInviterUserId();
@@ -39,12 +30,6 @@ public class FriendService {
         User inviter = userRepository.findById(inviterId)
                 .orElseThrow(() -> new GeneralException(USER_NOT_FOUND));
         User invited = userRepository.findById(invitedId)
-=======
-    public void addFriend(AddFriendReqDto addFriendReqDto){
-        User inviter = userRepository.findById(addFriendReqDto.getInviterUserId())
-                .orElseThrow(() -> new GeneralException(USER_NOT_FOUND));
-        User invited = userRepository.findById(addFriendReqDto.getInvitedUserId())
->>>>>>> f48bd7b1b20b984b1b6589a058a71b1dac291212
                 .orElseThrow(() -> new GeneralException(USER_NOT_FOUND));
 
         friendRepository.findByUser1AndUser2(inviter, invited)
@@ -52,11 +37,7 @@ public class FriendService {
                     throw new GeneralException(FRIEND_ALREADY_EXIST);
                 });
 
-<<<<<<< HEAD
         Friend friend = FriendConverter.fromEntity(invited, inviter);
-=======
-        Friend friend = Friend.fromEntity(invited, inviter);
->>>>>>> f48bd7b1b20b984b1b6589a058a71b1dac291212
         friendRepository.save(friend);
     }
 }
