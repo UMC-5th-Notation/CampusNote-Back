@@ -35,8 +35,8 @@ public enum ErrorStatus implements BaseErrorCode {
     USER_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "MEMBER4004", "이미 존재하는 사용자입니다."),
     FRIEND_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "MEMBER4005", "이미 존재하는 친구입니다."),
 
-    FRIEND_NOT_MYSELF(HttpStatus.BAD_REQUEST, "MEMBER4006", "자기 자신과는 친구가 될 수 없습니다."),
 
+    FRIEND_NOT_MYSELF(HttpStatus.BAD_REQUEST, "MEMBER4006", "자기 자신과는 친구가 될 수 없습니다."),
 
     // 토큰 관련 에러
     TOKEN_NOT_FOUND(HttpStatus.BAD_REQUEST, "TOKEN4001", "토큰이 존재하지 않습니다."),
@@ -51,6 +51,9 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // 노트 관련 에러
     NOTE_NOT_FOUND(HttpStatus.BAD_REQUEST, "NOTE4001", "존재하지 않는 노트."),
+
+    // 이미지 관련 에러
+    IMAGE_NOT_FOUND(HttpStatus.BAD_REQUEST, "IMAGE4001", "존재하지 않는 이미지."),
 
     // 강의 노트 관련 에러
     LESSONNOTE_NOT_FOUND(HttpStatus.BAD_REQUEST, "LESSONNOTE4001", "존재하지 않는 강의 노트.");

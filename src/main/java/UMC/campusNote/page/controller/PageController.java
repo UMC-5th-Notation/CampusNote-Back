@@ -26,14 +26,14 @@ public class PageController {
             "Body : request 파라미터로 noteId, pageNum, sideNote, round // image 파라미터로 파일 넣기" +
             "noteId, pageNum가 이미 존재하는 데이터면 업데이트(round, sideNote, image)")
     @PostMapping
-    public ApiResponse<PageResponseDTO.pageResultDTO> write(@AuthenticationPrincipal User user, @RequestPart("request") PageRequestDTO.PageDto request, @RequestPart("image") MultipartFile image) throws IOException {
+    public ApiResponse<PageResponseDTO.PageResultDTO> write(@AuthenticationPrincipal User user, @RequestPart("request") PageRequestDTO.PageDTO request, @RequestPart("image") MultipartFile image) throws IOException {
         Page newPage = pageService.writePage(request, image, user.getId());
         return ApiResponse.onSuccess(PageConverter.toPageResultDTO(newPage));
     }
 
     @Operation(summary = "노트아이디로 페이지 조회 API", description = "pathVariable로 noteId")
     @GetMapping("/{noteId}")
-    public ApiResponse<List<PageResponseDTO.GetpageResultDTO>> getPages(@PathVariable Long noteId) throws IOException {
+    public ApiResponse<List<PageResponseDTO.GetPageResultDTO>> getPages(@PathVariable Long noteId) throws IOException {
         return ApiResponse.onSuccess(pageService.getPagesOfNote(noteId));
     }
 

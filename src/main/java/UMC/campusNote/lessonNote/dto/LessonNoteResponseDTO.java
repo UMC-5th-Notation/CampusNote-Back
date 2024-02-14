@@ -10,7 +10,7 @@ public class LessonNoteResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class lessonNoteResultDTO{
+    public static class CreateResultDTO {
         Long lessonNoteId;
         Long noteId;
         String fileUrl;

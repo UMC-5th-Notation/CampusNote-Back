@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class LessonNoteConverter {
-    public static LessonNoteResponseDTO.lessonNoteResultDTO toLessonNoteResultDTO(LessonNote lessonNote){
-        return LessonNoteResponseDTO.lessonNoteResultDTO.builder()
+    public static LessonNoteResponseDTO.CreateResultDTO toLessonNoteResultDTO(LessonNote lessonNote){
+        return LessonNoteResponseDTO.CreateResultDTO.builder()
                 .lessonNoteId(lessonNote.getId())
                 .noteId(lessonNote.getNote().getId())
                 .fileUrl(lessonNote.getLessonNote())

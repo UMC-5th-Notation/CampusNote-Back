@@ -44,8 +44,15 @@ public enum SuccessStatus implements BaseCode {
     // 강의노트
     LESSONNOTE_CREATE(HttpStatus.CREATED, "LESSONNOTE201", "강의 노트 업로드 성공"),
     LESSONNOTE_GET(HttpStatus.OK, "LESSONNOTE200", "강의 노트 조회 성공"),
-    LESSONNOTE_DELETE(HttpStatus.OK, "LESSONNOTE202", "강의 노트 삭제 성공");
+    LESSONNOTE_DELETE(HttpStatus.OK, "LESSONNOTE202", "강의 노트 삭제 성공"),
 
+    // 이미지
+    IMAGE_CREATE(HttpStatus.CREATED, "IMAGE201", "이미지 업로드 성공"),
+    IMAGE_GET_ONE(HttpStatus.OK, "IMAGE200", "노트의 특정 이미지 조회 성공"),
+    IMAGE_GET_ALL(HttpStatus.OK, "IMAGE200", "노트의 모든 이미지 조회 성공"),
+    IMAGE_DELETE_ONE(HttpStatus.OK, "IMAGE202", "노트의 특정 이미지 삭제 성공"),
+    IMAGE_DELETE_ALL(HttpStatus.OK, "IMAGE202", "노트의 모든 이미지 삭제 성공"),
+    ;
 
     private final HttpStatus httpStatus;
     private final String code;

@@ -1,28 +1,27 @@
-package UMC.campusNote.page.dto;
+package UMC.campusNote.image.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public class PageResponseDTO {
+public class ImageResponseDTO {
     @Builder
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class PageResultDTO{
+    public static class CreateImageResultDTO {
+        Long imageId;
         Long noteId;
-        Long pageId;
+        String fileUrl;
     }
 
     @Builder
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class GetPageResultDTO {
-        Long pageId;
-        String handWritingSVG;
-        Integer pageNumber;
-        String sideNote;
+    public static class GetImageResultDTO {
+        Long imageId;
+        String imgUrl;
     }
 }

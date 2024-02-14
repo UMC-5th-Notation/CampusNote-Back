@@ -5,7 +5,6 @@ import UMC.campusNote.lessonNote.converter.LessonNoteConverter;
 import UMC.campusNote.lessonNote.dto.LessonNoteResponseDTO;
 import UMC.campusNote.lessonNote.entity.LessonNote;
 import UMC.campusNote.lessonNote.service.LessonNoteService;
-import UMC.campusNote.page.dto.PageResponseDTO;
 import UMC.campusNote.user.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -36,7 +35,7 @@ public class LessonNoteController {
             @Parameter(name = "noteId", description = "노트의 아이디, path variable 입니다"),
             @Parameter(name = "lessonNoteFile", description = "강의 노트 파일, Multipart 입니다")
     })
-    public ApiResponse<LessonNoteResponseDTO.lessonNoteResultDTO> create(@AuthenticationPrincipal User user, @PathVariable("noteId") Long noteId, @RequestParam("lessonNoteFile") MultipartFile lessonNoteFile) throws IOException {
+    public ApiResponse<LessonNoteResponseDTO.CreateResultDTO> create(@AuthenticationPrincipal User user, @PathVariable("noteId") Long noteId, @RequestParam("lessonNoteFile") MultipartFile lessonNoteFile) throws IOException {
         LessonNote newLessonNote = lessonNoteService.createLessonNote(noteId, lessonNoteFile, user.getId());
         return ApiResponse.of(LESSONNOTE_CREATE, LessonNoteConverter.toLessonNoteResultDTO(newLessonNote));
     }
@@ -51,7 +50,7 @@ public class LessonNoteController {
     @Parameters({
             @Parameter(name = "noteId", description = "노트의 아이디, path variable 입니다")
     })
-    public ApiResponse<LessonNoteResponseDTO.lessonNoteResultDTO> getLessonNotes(@PathVariable Long noteId) throws IOException {
+    public ApiResponse<LessonNoteResponseDTO.CreateResultDTO> getLessonNotes(@PathVariable Long noteId) throws IOException {
         LessonNote lessonNote = lessonNoteService.getLessonNoteByNoteId(noteId);
         return ApiResponse.of(LESSONNOTE_GET, LessonNoteConverter.toLessonNoteResultDTO(lessonNote));
     }
@@ -66,7 +65,7 @@ public class LessonNoteController {
     @Parameters({
             @Parameter(name = "noteId", description = "노트의 아이디, path variable 입니다")
     })
-    public ApiResponse<LessonNoteResponseDTO.lessonNoteResultDTO> deleteLessonNotes(@PathVariable Long noteId) throws IOException {
+    public ApiResponse<LessonNoteResponseDTO.CreateResultDTO> deleteLessonNotes(@PathVariable Long noteId) throws IOException {
         LessonNote lessonNote = lessonNoteService.deleteLessonNoteByNoteId(noteId);
         return ApiResponse.of(LESSONNOTE_DELETE, LessonNoteConverter.toLessonNoteResultDTO(lessonNote));
     }

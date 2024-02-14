@@ -5,7 +5,7 @@ import lombok.Getter;
 
 public class PageRequestDTO {
     @Getter
-    public static class PageDto{
+    public static class PageDTO {
         @Schema(description = "노트아이디", example = "1")
         Long noteId;
 

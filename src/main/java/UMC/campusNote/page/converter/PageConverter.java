@@ -10,14 +10,14 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class PageConverter {
-    public static PageResponseDTO.pageResultDTO toPageResultDTO(Page page){
-        return PageResponseDTO.pageResultDTO.builder()
+    public static PageResponseDTO.PageResultDTO toPageResultDTO(Page page){
+        return PageResponseDTO.PageResultDTO.builder()
                 .pageId(page.getId())
                 .noteId(page.getNote().getId())
                 .build();
     }
 
-    public static Page toPage(PageRequestDTO.PageDto request, Note note){
+    public static Page toPage(PageRequestDTO.PageDTO request, Note note){
         return Page.builder()
                 .note(note)
                 .pageNumber(request.getPageNum())

@@ -28,7 +28,7 @@ public class PageService {
    private final UserRepository userRepository;
    private final S3Provider s3Provider;
 
-   public Page writePage(PageRequestDTO.PageDto request, MultipartFile file, Long userId) throws IOException {
+   public Page writePage(PageRequestDTO.PageDTO request, MultipartFile file, Long userId) throws IOException {
       User user = userRepository.findById(userId).orElseThrow(()-> new RuntimeException());
       Note note = noteRepository.findById(request.getNoteId()).orElseThrow(()-> new RuntimeException());
 
@@ -53,11 +53,11 @@ public class PageService {
       }
    }
 
-   public List<PageResponseDTO.GetpageResultDTO> getPagesOfNote(Long noteId) throws IOException{
+   public List<PageResponseDTO.GetPageResultDTO> getPagesOfNote(Long noteId) throws IOException{
       List<Page> pageList = pageRepository.findAllByNoteId(noteId);
-      List<PageResponseDTO.GetpageResultDTO> getPageRes = pageList.stream()
-              .map(pages -> new PageResponseDTO.GetpageResultDTO(pages.getId(), pages.getHandWritingSVG(), pages.getPageNumber(), pages.getSideNote()))
-              .sorted(Comparator.comparingInt(PageResponseDTO.GetpageResultDTO::getPageNumber)) // 페이지 번호로 정렬
+      List<PageResponseDTO.GetPageResultDTO> getPageRes = pageList.stream()
+              .map(pages -> new PageResponseDTO.GetPageResultDTO(pages.getId(), pages.getHandWritingSVG(), pages.getPageNumber(), pages.getSideNote()))
+              .sorted(Comparator.comparingInt(PageResponseDTO.GetPageResultDTO::getPageNumber)) // 페이지 번호로 정렬
               .collect(Collectors.toList());
       return getPageRes;
    }

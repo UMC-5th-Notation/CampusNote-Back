@@ -1,45 +1,23 @@
 package UMC.campusNote.friend.service;
 
 import UMC.campusNote.common.exception.GeneralException;
-<<<<<<< HEAD
 import UMC.campusNote.friend.dto.FriendRequestDTO;
 import UMC.campusNote.friend.entity.Friend;
 import UMC.campusNote.friend.repository.FriendRepository;
 import UMC.campusNote.user.entity.User;
 import UMC.campusNote.user.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
-=======
-import UMC.campusNote.friend.dto.AddFriendReqDto;
-import UMC.campusNote.friend.entity.Friend;
-import UMC.campusNote.friend.repository.FriendRepository;
-import UMC.campusNote.user.entity.Role;
-import UMC.campusNote.user.entity.User;
-import UMC.campusNote.user.repository.UserRepository;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
->>>>>>> f48bd7b1b20b984b1b6589a058a71b1dac291212
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-<<<<<<< HEAD
+
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-=======
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.Optional;
-
-import static UMC.campusNote.common.code.status.ErrorStatus.USER_NOT_FOUND;
->>>>>>> f48bd7b1b20b984b1b6589a058a71b1dac291212
 import static org.mockito.Mockito.*;
 
 
@@ -61,11 +39,8 @@ public class FriendServiceTest {
     @DisplayName("[addFriend service 성공] Add friend test")
     public void addFriendTest(){
         // 테스트용 데이터 생성
-<<<<<<< HEAD
         FriendRequestDTO.AddFriendReqDTO addFriendReqDto = new FriendRequestDTO.AddFriendReqDTO();
-=======
-        AddFriendReqDto addFriendReqDto = new AddFriendReqDto();
->>>>>>> f48bd7b1b20b984b1b6589a058a71b1dac291212
+
         addFriendReqDto.setInviterUserId(1L);
         addFriendReqDto.setInvitedUserId(2L);
 
@@ -95,11 +70,8 @@ public class FriendServiceTest {
     public void addFriendTest_FRIEND_ALREADY_EXIST(){
 
         // 테스트용 데이터 생성
-<<<<<<< HEAD
         FriendRequestDTO.AddFriendReqDTO addFriendReqDto = new FriendRequestDTO.AddFriendReqDTO();
-=======
-        AddFriendReqDto addFriendReqDto = new AddFriendReqDto();
->>>>>>> f48bd7b1b20b984b1b6589a058a71b1dac291212
+
         addFriendReqDto.setInviterUserId(1L);
         addFriendReqDto.setInvitedUserId(2L);
 
