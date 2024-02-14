@@ -16,7 +16,7 @@ public class ClassSideNoteRequestDTO {
     @Getter
     @Setter
     @Builder
-    public static class CreateSideNoteRequest {
+    public static class ClassSideNoteCreateDTO {
         @NotBlank
         private String content;
 
@@ -34,7 +34,7 @@ public class ClassSideNoteRequestDTO {
     @Getter
     @Setter
     @Builder
-    public static class UpdateSideNoteRequest {
+    public static class ClassSideNoteUpdateDTO {
         @NonNull
         private String content;
 
