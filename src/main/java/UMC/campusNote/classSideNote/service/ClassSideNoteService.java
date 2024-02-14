@@ -7,9 +7,9 @@ import static UMC.campusNote.classSideNote.status.ClassSideNoteErrorStatus.CLASS
 import static UMC.campusNote.classSideNote.status.ClassSideNoteErrorStatus.USER_LESSON_NOT_FOUND;
 
 import UMC.campusNote.classSideNote.converter.ClassSideNoteConverter;
-import UMC.campusNote.classSideNote.dto.ClassSideNoteRequestDTO.CreateSideNoteRequest;
-import UMC.campusNote.classSideNote.dto.ClassSideNoteRequestDTO.UpdateSideNoteRequest;
-import UMC.campusNote.classSideNote.dto.ClassSideNoteResponseDTO.ClassSideNoteResponse;
+import UMC.campusNote.classSideNote.dto.ClassSideNoteRequestDTO.ClassSideNoteCreateDTO;
+import UMC.campusNote.classSideNote.dto.ClassSideNoteRequestDTO.ClassSideNoteUpdateDTO;
+import UMC.campusNote.classSideNote.dto.ClassSideNoteResponseDTO.ClassSideNoteResultDTO;
 import UMC.campusNote.classSideNote.entity.ClassSideNote;
 import UMC.campusNote.classSideNote.exception.ClassSideNoteException;
 import UMC.campusNote.classSideNote.repository.ClassSideNoteRepository;
@@ -36,7 +36,7 @@ public class ClassSideNoteService {
     ClassSideNoteConverter classSideNoteConverter;
 
 
-    public ClassSideNoteResponse createClassSideNote(Long userLessonId, CreateSideNoteRequest request) {
+    public ClassSideNoteResultDTO createClassSideNote(Long userLessonId, ClassSideNoteCreateDTO request) {
         validateUserLesson(userLessonId);
 
         UserLesson userLesson = userLessonRepository.findById(userLessonId).orElseThrow();
@@ -53,36 +53,36 @@ public class ClassSideNoteService {
 
         classSideNoteRepository.save(classSideNote);
 
-        return classSideNoteConverter.convert(classSideNote);
+        return classSideNoteConverter.toClassSideNoteResultDTO(classSideNote);
     }
 
-    public ClassSideNoteResponse updateClassSideNote(Long id, UpdateSideNoteRequest request) {
+    public ClassSideNoteResultDTO updateClassSideNote(Long id, ClassSideNoteUpdateDTO request) {
         validateClassSideNoteId(id);
         ClassSideNote oldClassSideNote = classSideNoteRepository.findById(id).orElseThrow();
 
         ClassSideNote classSideNote = oldClassSideNote.update(request);
         validateClassSideNoteId(classSideNote.getId());
 
-        return classSideNoteConverter.convert(classSideNote);
+        return classSideNoteConverter.toClassSideNoteResultDTO(classSideNote);
     }
-    public ClassSideNoteResponse updateClassSideNoteContent(Long id, String content){
+    public ClassSideNoteResultDTO updateClassSideNoteContent(Long id, String content){
         validateClassSideNoteId(id);
         ClassSideNote oldClassSideNote = classSideNoteRepository.findById(id).orElseThrow();
 
         ClassSideNote classSideNote = oldClassSideNote.updateContent(content);
         validateClassSideNoteId(classSideNote.getId());
 
-        return classSideNoteConverter.convert(classSideNote);
+        return classSideNoteConverter.toClassSideNoteResultDTO(classSideNote);
     }
 
-    public ClassSideNoteResponse getClassSideNoteById(Long id) {
+    public ClassSideNoteResultDTO getClassSideNoteById(Long id) {
         validateClassSideNoteId(id);
 
         ClassSideNote classSideNote = classSideNoteRepository.findById(id).orElseThrow();
 
         // Todo : 검증로직 추가
 
-        return classSideNoteConverter.convert(classSideNote);
+        return classSideNoteConverter.toClassSideNoteResultDTO(classSideNote);
     }
 
     public List<ClassSideNote> getClassSideNoteListByUserLessonId(Long userLessonId) {
@@ -133,7 +133,7 @@ public class ClassSideNoteService {
     }
 
 
-    private void validateRequest(CreateSideNoteRequest request) {
+    private void validateRequest(ClassSideNoteCreateDTO request) {
         if (request == null) {
             throw new ClassSideNoteException(CLASS_SIDE_NOTE_BAD_REQUEST);
         }
