@@ -1,6 +1,6 @@
 package UMC.campusNote.classSideNote.converter;
 
-import UMC.campusNote.classSideNote.dto.ClassSideNoteResponseDTO;
+import UMC.campusNote.classSideNote.dto.ClassSideNoteResponseDTO.ClassSideNoteResultDTO;
 import UMC.campusNote.classSideNote.entity.ClassSideNote;
 
 import java.util.List;
@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class ClassSideNoteConverter {
-    public ClassSideNoteResponseDTO.ClassSideNoteResponse convert(ClassSideNote classSideNote) {
-        return ClassSideNoteResponseDTO.ClassSideNoteResponse.builder()
+    public ClassSideNoteResultDTO toClassSideNoteResultDTO(ClassSideNote classSideNote) {
+        return ClassSideNoteResultDTO.builder()
                 .id(classSideNote.getId())
                 .content(classSideNote.getContent())
                 .isTodo(classSideNote.getIsTodo())
@@ -22,9 +22,9 @@ public class ClassSideNoteConverter {
                 .build();
     }
 
-    public List<ClassSideNoteResponseDTO.ClassSideNoteResponse> convertList(List<ClassSideNote> classSideNoteList) {
+    public List<ClassSideNoteResultDTO> toClassSideNoteResultDTOList(List<ClassSideNote> classSideNoteList) {
         return classSideNoteList.stream()
-                .map(this::convert)
+                .map(this::toClassSideNoteResultDTO)
                 .collect(Collectors.toList());
     }
 }
