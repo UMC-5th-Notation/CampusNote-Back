@@ -1,9 +1,9 @@
 package UMC.campusNote.classSideNote.controller;
 
 import UMC.campusNote.classSideNote.converter.ClassSideNoteConverter;
-import UMC.campusNote.classSideNote.dto.ClassSideNoteRequestDTO.CreateSideNoteRequest;
-import UMC.campusNote.classSideNote.dto.ClassSideNoteRequestDTO.UpdateSideNoteRequest;
-import UMC.campusNote.classSideNote.dto.ClassSideNoteResponseDTO.ClassSideNoteResponse;
+import UMC.campusNote.classSideNote.dto.ClassSideNoteRequestDTO.ClassSideNoteCreateDTO;
+import UMC.campusNote.classSideNote.dto.ClassSideNoteRequestDTO.ClassSideNoteUpdateDTO;
+import UMC.campusNote.classSideNote.dto.ClassSideNoteResponseDTO.ClassSideNoteResultDTO;
 import UMC.campusNote.classSideNote.entity.ClassSideNote;
 import UMC.campusNote.classSideNote.service.ClassSideNoteService;
 
@@ -33,57 +33,57 @@ public class ClassSideNoteController {
     ClassSideNoteConverter classSideNoteConverter;
 
     @PostMapping("/create/")
-    public ApiResponse<ClassSideNoteResponse> createClassSideNote(
+    public ApiResponse<ClassSideNoteResultDTO> createClassSideNote(
             @RequestParam Long userLessonId,
-            @RequestBody CreateSideNoteRequest request) {
-        ClassSideNoteResponse response = classSideNoteService.createClassSideNote(userLessonId, request);
+            @RequestBody ClassSideNoteCreateDTO request) {
+        ClassSideNoteResultDTO response = classSideNoteService.createClassSideNote(userLessonId, request);
 
         return ApiResponse.onSuccess(response);
     }
 
 
     @GetMapping("/{classSideNoteId}")
-    public ApiResponse<ClassSideNoteResponse> getClassSideNoteById(
+    public ApiResponse<ClassSideNoteResultDTO> getClassSideNoteById(
             @PathVariable Long classSideNoteId) {
-        ClassSideNoteResponse response = classSideNoteService.getClassSideNoteById(classSideNoteId);
+        ClassSideNoteResultDTO response = classSideNoteService.getClassSideNoteById(classSideNoteId);
 
         return ApiResponse.onSuccess(response);
     }
 
     @GetMapping("/{userLessonId}/list")
-    public ApiResponse<Collection<ClassSideNoteResponse>> getClassSideNoteListByUserLessonId(
+    public ApiResponse<Collection<ClassSideNoteResultDTO>> getClassSideNoteListByUserLessonId(
             @PathVariable("userLessonId") Long userLessonId
     ) {
         List<ClassSideNote> classSideNoteList =
                 classSideNoteService.getClassSideNoteListByUserLessonId(userLessonId);
 
-        List<ClassSideNoteResponse> classSideNoteResponseList = classSideNoteConverter.convertList(classSideNoteList);
-        return ApiResponse.onSuccess(classSideNoteResponseList);
+        List<ClassSideNoteResultDTO> classSideNoteResultDTOList = classSideNoteConverter.toClassSideNoteResultDTOList(classSideNoteList);
+        return ApiResponse.onSuccess(classSideNoteResultDTOList);
     }
 
     @PutMapping("/{classSideNoteId}")
-    public ApiResponse<ClassSideNoteResponse> updateClassSideNote(
+    public ApiResponse<ClassSideNoteResultDTO> updateClassSideNote(
             @PathVariable Long classSideNoteId,
-            @RequestBody UpdateSideNoteRequest request) {
-        ClassSideNoteResponse response = classSideNoteService.updateClassSideNote(classSideNoteId, request);
+            @RequestBody ClassSideNoteUpdateDTO request) {
+        ClassSideNoteResultDTO response = classSideNoteService.updateClassSideNote(classSideNoteId, request);
 
         return ApiResponse.onSuccess(response);
     }
 
     @PatchMapping("/{classSideNoteId}")
-    public ApiResponse<ClassSideNoteResponse> updateClassSideNoteContent(
+    public ApiResponse<ClassSideNoteResultDTO> updateClassSideNoteContent(
             @PathVariable Long classSideNoteId,
             @RequestParam String content) {
-        ClassSideNoteResponse response = classSideNoteService.updateClassSideNoteContent(classSideNoteId, content);
+        ClassSideNoteResultDTO response = classSideNoteService.updateClassSideNoteContent(classSideNoteId, content);
 
         return ApiResponse.onSuccess(response);
     }
 
     @DeleteMapping("/{classSideNoteId}")
-    public ApiResponse<ClassSideNoteResponse> deleteClassSideNoteById(
+    public ApiResponse<ClassSideNoteResultDTO> deleteClassSideNoteById(
             @PathVariable
             Long classSideNoteId) {
-        ClassSideNoteResponse response = classSideNoteService.getClassSideNoteById(classSideNoteId);
+        ClassSideNoteResultDTO response = classSideNoteService.getClassSideNoteById(classSideNoteId);
 
         classSideNoteService.deleteById(classSideNoteId);
 
