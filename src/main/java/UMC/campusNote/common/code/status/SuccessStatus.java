@@ -51,7 +51,10 @@ public enum SuccessStatus implements BaseCode {
     IMAGE_GET_ONE(HttpStatus.OK, "IMAGE200", "노트의 특정 이미지 조회 성공"),
     IMAGE_GET_ALL(HttpStatus.OK, "IMAGE200", "노트의 모든 이미지 조회 성공"),
     IMAGE_DELETE_ONE(HttpStatus.OK, "IMAGE202", "노트의 특정 이미지 삭제 성공"),
-    IMAGE_DELETE_ALL(HttpStatus.OK, "IMAGE202", "노트의 모든 이미지 삭제 성공"),
+    IMAGE_DELETE_ALL(HttpStatus.OK, "IMAGE203", "노트의 모든 이미지 삭제 성공"),
+
+    // 수강 학기
+    ATTENDED_SEMESTER_UPDATE(HttpStatus.OK, "ATTENDED_SEMESTER200", "수강 학기 업데이트 성공"),
     ;
 
     private final HttpStatus httpStatus;
