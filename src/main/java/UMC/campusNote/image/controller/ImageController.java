@@ -81,7 +81,7 @@ public class ImageController {
     @DeleteMapping("/{noteId}")
     @Operation(summary = "특정 노트의 모든 이미지를 삭제하는 API", description = "특정 노트의 모든 이미지를 삭제하는 API")
     @ApiResponses({
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "IMAGE202",description = "노트의 모든 이미지 삭제 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "IMAGE203",description = "노트의 모든 이미지 삭제 성공"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "NOTE4001", description = "존재하지 않는 노트.",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "IMAGE4001", description = "존재하지 않는 이미지.",content = @Content(schema = @Schema(implementation = ApiResponse.class)))
     })
