@@ -45,8 +45,8 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public Slice<NoteResponseDTO.NoteGetDTO> getUserNotes(User user, Long lessonId, String semester, Pageable pageable) {
-        UserLesson userLesson = getUserLesson(user, lessonId, semester);
+    public Slice<NoteResponseDTO.NoteGetDTO> getUserNotes(User user, Long lessonId, String attendedSemester, Pageable pageable) {
+        UserLesson userLesson = getUserLesson(user, lessonId, attendedSemester);
         Page<UserLessonNote> userLessonNotePage = userLessonNoteRepository.findByUserLessonId(userLesson.getId(), pageable);
         List<NoteResponseDTO.NoteGetDTO> noteGetDTOS = userLessonNotePage.getContent().stream().map(NoteConverter::toNoteGetDTO).toList();
         return new SliceImpl<>(noteGetDTOS, pageable, userLessonNotePage.hasNext());
@@ -55,7 +55,7 @@ public class NoteServiceImpl implements NoteService {
     @Override
     @Transactional
     public NoteResponseDTO.NoteCreateDTO createUserNote(User user, Long lessonId, NoteRequestDTO.NoteCreateDTO request) {
-        return NoteConverter.toNoteCreateDTO(createNote(request.getNoteName(), getUserLesson(user, lessonId, request.getSemester())));
+        return NoteConverter.toNoteCreateDTO(createNote(request.getNoteName(), getUserLesson(user, lessonId, request.getAttendedSemester())));
     }
 
     @Override
@@ -75,10 +75,10 @@ public class NoteServiceImpl implements NoteService {
     }
 
 
-    private UserLesson getUserLesson(User user, Long lessonId, String semester) {
+    private UserLesson getUserLesson(User user, Long lessonId, String attendedSemester) {
         Lesson lesson = lessonRepository.findById(lessonId).orElseThrow(
                 () -> new GeneralException(LESSON_NOT_FOUND));
-        return userLessonRepository.findByUserAndAttendedSemesterAndLesson(user, semester, lesson)
+        return userLessonRepository.findByUserAndAttendedSemesterAndLesson(user, attendedSemester, lesson)
                 .orElseThrow(() -> new GeneralException(USER_LESSON_NOT_FOUND));
     }
 

@@ -55,8 +55,8 @@ public class NoteController {
             @Parameter(name = "lessonId", description = "레슨의 아이디, path variable 입니다"),
             @Parameter(name = "semester", description = "학기, query string 입니다")
     })
-    public ApiResponse<Slice<NoteResponseDTO.NoteGetDTO>> getUserNotes(@AuthenticationPrincipal User user, @PathVariable("lessonId") Long lessonId, @RequestParam("semester") String semester, Pageable pageable) {
-        return ApiResponse.of(NOTE_GET_ALL, noteService.getUserNotes(user, lessonId, semester, pageable));
+    public ApiResponse<Slice<NoteResponseDTO.NoteGetDTO>> getUserNotes(@AuthenticationPrincipal User user, @PathVariable("lessonId") Long lessonId, @RequestParam("attendedSemester") String attendedSemester, Pageable pageable) {
+        return ApiResponse.of(NOTE_GET_ALL, noteService.getUserNotes(user, lessonId, attendedSemester, pageable));
     }
 
     @PostMapping("/{lessonId}")
