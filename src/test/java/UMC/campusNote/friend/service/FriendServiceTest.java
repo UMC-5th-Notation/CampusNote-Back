@@ -1,13 +1,16 @@
 package UMC.campusNote.friend.service;
 
 import UMC.campusNote.common.exception.GeneralException;
+import UMC.campusNote.friend.converter.FriendConverter;
 import UMC.campusNote.friend.dto.FriendRequestDTO;
+import UMC.campusNote.friend.dto.FriendResponseDTO;
 import UMC.campusNote.friend.entity.Friend;
 import UMC.campusNote.friend.repository.FriendRepository;
 import UMC.campusNote.user.entity.User;
 import UMC.campusNote.user.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +19,8 @@ import org.mockito.Mock;
 
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -30,10 +35,9 @@ public class FriendServiceTest {
     @InjectMocks
     FriendService friendService;
 
-//    @BeforeEach
-//    public void setUp(){
-//
-//    }
+    //@BeforeEach
+    //public void setUp(){
+    //}
 
     @Test
     @DisplayName("[addFriend service 성공] Add friend test")
@@ -96,5 +100,61 @@ public class FriendServiceTest {
 
         // friendRepository.save() 메서드가 호출되지 않았는지 검증
         verify(friendRepository, never()).save(any(Friend.class));
+    }
+
+    @Test
+    @DisplayName("[findFriendList service 성공] find friendList test")
+    void findFriendListTest() {
+        // Mock 데이터 설정
+        Long userId=1L;
+        User user1 = User.builder()
+                .id(userId)
+                .build();
+        User user2 = User.builder()
+                .id(2L)
+                .build();
+        User user3 = User.builder()
+                .id(3L)
+                .build();
+
+        Friend friend1 = Friend.builder()
+                .user1(user1)
+                .user2(user2)
+                .build();
+        Friend friend2 = Friend.builder()
+                .user1(user3)
+                .user2(user1)
+                .build();
+
+        List<Friend> friends = new ArrayList<>();
+        friends.add(friend1);
+        friends.add(friend2);
+
+        List<FriendResponseDTO.friendListDTO> expectedFriendList = new ArrayList<>();
+        expectedFriendList.add(FriendConverter.toFriendListDTO(friend1.getUser2()));
+        expectedFriendList.add(FriendConverter.toFriendListDTO(friend2.getUser1()));
+
+        // userRepository의 findById 메소드 Mock 설정
+        when(userRepository.findById(userId)).thenReturn(Optional.of(user1));
+
+        // friendRepository의 findAllByUser1 메소드 Mock 설정
+        when(friendRepository.findAllByUser1(user1)).thenReturn(friends);
+
+        // 테스트 대상 메소드 호출
+        List<FriendResponseDTO.friendListDTO> actualFriendList = friendService.findFriendList(userId);
+
+        // 결과 검증
+        Assertions.assertEquals(expectedFriendList.size(), actualFriendList.size());
+        for (int i = 0; i < expectedFriendList.size(); i++) {
+            FriendResponseDTO.friendListDTO expectedFriend = expectedFriendList.get(i);
+            FriendResponseDTO.friendListDTO actualFriend = actualFriendList.get(i);
+            Assertions.assertEquals(expectedFriend.getFriendId(), actualFriend.getFriendId());
+            // 다른 필드에 대한 추가 검증 로직 작성
+        }
+
+        // userRepository의 findById 메소드가 정확히 1번 호출되었는지 검증
+        verify(userRepository, times(1)).findById(userId);
+        // friendRepository의 findAllByUser1 메소드가 정확히 1번 호출되었는지 검증
+        verify(friendRepository, times(1)).findAllByUser1(user1);
     }
 }
